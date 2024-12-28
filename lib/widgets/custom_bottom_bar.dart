@@ -10,11 +10,11 @@ class CustomBottomBar extends StatelessWidget {
           key: key,
         );
 
-  RxInt selectedIndex - 0.obs;
+  RxInt selectedIndex = 0.obs;
 
   List<BottomMenuModel> bottomMenuList = [
     BottomMenuModel(
-      icon: ImageConstant.imgHme,
+      icon: ImageConstant.imgHome,
       activeIcon: ImageConstant.imgHome,
       type: BottomBarEnum.Home,
     ),
@@ -25,7 +25,7 @@ class CustomBottomBar extends StatelessWidget {
     ),
     BottomMenuModel(
       icon: ImageConstant.imgUser,
-      activeIcon: ImageConstant.imgUser
+      activeIcon: ImageConstant.imgUser,
       type: BottomBarEnum.User,
     ),
   ];
@@ -33,7 +33,7 @@ class CustomBottomBar extends StatelessWidget {
   Function(BottomBarEnum)? onChanged;
 
   @override
-  widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: theme.colorScheme.onPrimaryContainer,
@@ -92,8 +92,8 @@ class DefaultWidget extends StatelessWidget {
       padding: EdgeInsets.all(10),
       child: Center(
         child: Column(
-          crossAxisAlignment: crossAxisAlignment.start,
-          MainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               'Please replace the respective Widget here',

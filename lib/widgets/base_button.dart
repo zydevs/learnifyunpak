@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 
 class BaseButton extends StatelessWidget {
@@ -22,6 +20,8 @@ class BaseButton extends StatelessWidget {
 
   final VoidCallback? onPressed;
 
+  final ButtonStyle? buttonStyle;
+
   final TextStyle? buttonTextStyle;
 
   final bool? isDisabled;
@@ -33,7 +33,7 @@ class BaseButton extends StatelessWidget {
   final EdgeInsets? margin;
 
   final Alignment? alignment;
-  
+
   @override
   Widget build(BuildContext context) {
     return const SizedBox.shrink();
