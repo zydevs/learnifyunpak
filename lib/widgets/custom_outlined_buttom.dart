@@ -1,0 +1,72 @@
+import 'package:flutter/material.dart';
+import '../core/app_export.dart';
+import 'base_button.dart';
+
+class CustomOutlinedButtom extends BaseButton {
+  CustomOutlinedButtom(
+      {Key? key,
+      this.decoration,
+      this.leftIcon,
+      this.rightIcon,
+      this.label,
+      VoidVallback? onPressed,
+      ButtonStyle? buttonStyle,
+      TextStyle? buttonTextStyle,
+      bool? isDisabled,
+      Alignment? alignment,
+      double? height,
+      double? width,
+      EdgeInsets? margin,
+      required String text})
+      : super(
+          text: text,
+          onPressed: onPressed,
+          buttonStyle: buttonStyle,
+          isDisabled: isDisabled,
+          buttonTextStyle: buttonTextStyle,
+          height: height,
+          alignment: alignment,
+          width: width,
+          margin: margin,
+        );
+
+  final BoxDecoration? decoration;
+
+  final Widget? leftIcon;
+
+  final Widget? rightIcon;
+
+  final Widget? label;
+
+  @override
+  Widget build(BuildContext context) {
+    return alignment != null
+        ? Align(
+            alignment: alignment ?? Alignment.center,
+            child: buildOutlinedButtonWidget)
+        : buildOutlinedButtonWidget;
+  }
+
+  Widget get buildOutlinedButtoneWidget => Container(
+    height: this.height ?? 34.h,
+    width: this.width ?? double.maxFinite,
+    margin: margin,
+    decoration: decoratin,
+    child: OutlinedButton(
+      style: buttonStyle,
+      onPressed: isDisabled ?? false ? null : onPressed ?? () {},
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          leftIcon ?? const SizedBox.shrink(),
+          Text(
+            text,
+            style: buttonTextStyle ?? theme.
+          ),
+          rightIcon ?? const SizedBox.shrink()
+        ],
+      ), 
+    ),
+  );
+}
