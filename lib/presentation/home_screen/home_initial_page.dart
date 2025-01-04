@@ -8,7 +8,7 @@ import 'controller/home_controller.dart';
 import 'homeall_tab_page.dart';
 import 'models/home_initial_model.dart';
 
-//
+// ignore_for_file: must_be_immutable
 class HomeInitialPage extends StatelessWidget {
   HomeInitialPage({Key? key})
       : super(
@@ -53,7 +53,7 @@ class HomeInitialPage extends StatelessWidget {
                       padding: EdgeInsets.only(left: 30.h),
                       child: Text(
                         "lbl_categories".tr,
-                        style: CutsomTextStyles.titleMediumPlusJakartaSans,
+                        style: CustomTextStyles.titleMediumPlusJakartasans,
                       ),
                     ),
                   ),
@@ -95,7 +95,7 @@ class HomeInitialPage extends StatelessWidget {
             children: [
               TextSpan(
                 text: "lbl_welcome".tr,
-                style: CustomTextStyles.titleLargePlusJakartaSansBlack900_1,
+                style: CustomTextStyles.titleLargePlusJakartasansBlack900_1,
               ),
               TextSpan(
                 text: "lbl_pulan".tr,
@@ -111,7 +111,7 @@ class HomeInitialPage extends StatelessWidget {
           imagePath: ImageConstant.imgNotifIcon,
           height: 20.h,
           width: 20.h,
-          margin: EdgeIsents.only(right: 22.h),
+          margin: EdgeInsets.only(right: 22.h),
         )
       ],
     );
@@ -129,13 +129,13 @@ class HomeInitialPage extends StatelessWidget {
             labelPadding: EdgeInsets.zero,
             labelColor: theme.colorScheme.onPrimary,
             labelStyle: TextStyle(
-              fontSize: 11.fsize,
+              fontSize: 11.fSize,
               fontFamily: 'Plus Jakarta Sans',
               fontWeight: FontWeight.w600,
             ),
-            unselectedLabelColor: theme.colorSceme.onPrimaryContainer,
+            unselectedLabelColor: theme.colorScheme.onPrimaryContainer,
             unselectedLabelStyle: TextStyle(
-              fontSize: 11.fsize,
+              fontSize: 11.fSize,
               fontFamily: 'Plus Jakarta Sans',
               fontWeight: FontWeight.w600,
             ),
@@ -146,7 +146,7 @@ class HomeInitialPage extends StatelessWidget {
                   alignment: Alignment.center,
                   width: double.maxFinite,
                   margin: EdgeInsets.only(right: 6.h),
-                  decoration: controller.tabIndex.value == 0,
+                  decoration: controller.tabIndex.value == 0
                       ? BoxDecoration(
                         color: theme.colorScheme.onPrimaryContainer,
                         borderRadius: BorderRadius.circular(
@@ -178,7 +178,7 @@ class HomeInitialPage extends StatelessWidget {
                   alignment: Alignment.center,
                   width: double.maxFinite,
                   margin: EdgeInsets.symmetric(horizontal: 6.h),
-                  decoration: controller.tabIndex.value == 1,
+                  decoration: controller.tabIndex.value == 1
                       ? BoxDecoration(
                         color: theme.colorScheme.onPrimaryContainer,
                         borderRadius: BorderRadius.circular(
@@ -210,7 +210,7 @@ class HomeInitialPage extends StatelessWidget {
                   alignment: Alignment.center,
                   width: double.maxFinite,
                   margin: EdgeInsets.only(left: 6.h),
-                  decoration: controller.tabIndex.value == 2,
+                  decoration: controller.tabIndex.value == 2
                       ? BoxDecoration(
                         color: theme.colorScheme.onPrimaryContainer,
                         borderRadius: BorderRadius.circular(

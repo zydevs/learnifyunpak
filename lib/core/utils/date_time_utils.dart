@@ -9,7 +9,7 @@ extension DateTimeExtension on DateTime {
     String? locale,
   }) {
     if (locale != null && locale.isNotEmpty) {
-      intializeDateFormatting(locale);
+      initializeDateFormatting(locale);
     } 
     return DateFormat(pattern, locale).format(this);
   }

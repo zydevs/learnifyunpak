@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../presentation/core/app_export.dart';
+import '../../core/app_export.dart';
 
 class AppbarSubtitle extends StatelessWidget {
   AppbarSubtitle({Key? key, required this.text, this.onTap, this.margin})
@@ -23,7 +23,7 @@ class AppbarSubtitle extends StatelessWidget {
         },
         child: Text(
           text,
-          style: theme.textTheme.titleLarge!.copywith(
+          style: theme.textTheme.titleLarge!.copyWith(
             color: theme.colorScheme.onPrimaryContainer,
           ),
         ),

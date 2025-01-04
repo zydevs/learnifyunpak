@@ -8,7 +8,7 @@ class ImageConstant {
 
   static String imgSecondLogo = '$imagePath/second-logo.png';
 
-  static String imgImage5 = '$imagePath/google.png';
+  static String imgGoogle = '$imagePath/google.png';
 
   static String imgBackgroundlogin = '$imagePath/background-login.png';
 
@@ -60,7 +60,7 @@ class ImageConstant {
 
   static String imgTelevision = '$imagePath/finish-class.svg';
 
-  static String imgContrastOnPrimarycontainer = '$imagePath/ .svg';
+  static String imgHelp = '$imagePath/help.svg';
 
   static String imgSave = '$imagePath/img_save.svg';
 
@@ -68,5 +68,5 @@ class ImageConstant {
 
   static String imgUserSelect = '$imagePath/user_select.png';
 
-  static String imgNotFound = 'assets/images/image_not_found.png';
+  static String imgNotFound = 'assets/images/image.png';
 }

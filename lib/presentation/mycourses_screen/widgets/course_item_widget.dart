@@ -1,18 +1,17 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import '../../../core/app_export.dart';
 import '../controller/mycourses_controller.dart';
 import '../models/courselist_item_model.dart';
 
+// ignore_for_file: must_be_immutable
 class CourselistItemWidget extends StatelessWidget{
   CourselistItemWidget(this.courselistItemModelObj, {Key? key})
       :super(
           key: key,
       );
 
-  CourselistItemModel = courselistItemModelObj;
-
+  CourselistItemModel courselistItemModelObj;
+  
   var controller = Get.find<MycoursesController>();
 
   @override
@@ -21,17 +20,17 @@ class CourselistItemWidget extends StatelessWidget{
       margin: EdgeInsets.only(left: 6.h),
       padding: EdgeInsets.symmetric(
         horizontal: 8.h,
-        verical: 12.h,
+        vertical: 12.h,
       ),
-      decoration: AppDecoration.outlineOnPrimary1.copyWith(
-        borderRadius: BorderRadiusStyle.roundedBorder5,
+      decoration: AppDecoration.outlineOnprimary1.copyWith(
+        borderRadius: BorderRadiusStyle.rounderBorder5,
       ),
       child: Row(
-        crossAxisAlignment: CrossAxixAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Obx(
             () => CustomImageView(
-              imagePath: courselistItemModelObj.dataMiningOne!.value,
+              imagePath: courselistItemModelObj.covercourse!.value,
               height: 80.h,
               width: 100.h,
               radius: BorderRadius.circular(
@@ -48,10 +47,10 @@ class CourselistItemWidget extends StatelessWidget{
                 child: Column(
                   children: [
                     Align(
-                      alignmnet: Alignment.centerLeft,
+                      alignment: Alignment.centerLeft,
                       child: Obx(
                         () => Text(
-                          couseslistItemModelObj.datamining!.value,
+                          courselistItemModelObj.namecourse!.value,
                           style: CustomTextStyles.titleSmallOnPrimaryContainer,
                         ),
                       ),
@@ -61,7 +60,7 @@ class CourselistItemWidget extends StatelessWidget{
                       alignment: Alignment.centerLeft,
                       child: Obx(
                         () => Text(
-                          courselistItemModelObj.drfajardelli!.value,
+                          courselistItemModelObj.lecture!.value,
                           style: CustomTextStyles.labelSmallGray600,
                         ),
                       ),
@@ -71,7 +70,7 @@ class CourselistItemWidget extends StatelessWidget{
                       child: Row(
                         children: [
                           Obx(
-                            () => customImageView(
+                            () => CustomImageView(
                               imagePath:
                                 courselistItemModelObj.requiredCourse!.value,
                               height: 14.h,
@@ -84,7 +83,7 @@ class CourselistItemWidget extends StatelessWidget{
                               padding: EdgeInsets.only(left: 4.h),
                               child: Obx(
                                 () => Text(
-                                  couselistItemModelObj.requiredCourse1!.value,
+                                  courselistItemModelObj.requiredCourse1!.value,
                                   style: CustomTextStyles
                                       .plusJakartaSansGray600Medium7,
                                 ),
@@ -123,7 +122,7 @@ class CourselistItemWidget extends StatelessWidget{
                       child: Obx(
                         () => Text(
                           courselistItemModelObj.completed!.value,
-                          style: CustomTextStyles.plushJakartaSansGray600,
+                          style: CustomTextStyles.plusJakartaSansGray600,
                         ),
                       ),
                     ),
@@ -132,17 +131,17 @@ class CourselistItemWidget extends StatelessWidget{
                       width: double.maxFinite,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children[
+                        children: [
                           Container(
                             padding: EdgeInsets.symmetric(horizontal: 6.h),
                             decoration:
                                 AppDecoration.fillOnPrimaryContainer.copyWith(
-                              borderRadius: BorderRadiusStyle.roundedBorderr5,
+                              borderRadius: BorderRadiusStyle.rounderBorder5,
                               ),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.center,
-                              childrem: [
+                              children: [
                                 Obx(
                                   () => Text(
                                     courselistItemModelObj.learned!.value,
@@ -153,7 +152,7 @@ class CourselistItemWidget extends StatelessWidget{
                             ),
                           ),
                           Spacer(),
-                          Obx(,
+                          Obx(
                             () => CustomImageView(
                               imagePath: courselistItemModelObj.image!.value,
                               height: 10.h,

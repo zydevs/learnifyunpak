@@ -14,6 +14,7 @@ import '../presentation/register_screen/register_screen.dart';
 import '../presentation/splashscreen_screen/binding/splashscreen_binding.dart';
 import '../presentation/splashscreen_screen/splashscreen_screen.dart';
 
+// ignore_for_file: must_be_immutable
 class AppRoutes {
   static const String splashscreenScreen = '/splashscreen_screen';
 
@@ -51,7 +52,7 @@ class AppRoutes {
     GetPage(
       name: registerScreen,
       page: () => RegisterScreen(),
-      bindings: [HomeBinding()],
+      bindings: [RegisterBinding()],
     ),
     GetPage(
       name: homeScreen,
@@ -66,7 +67,7 @@ class AppRoutes {
     GetPage(
       name: profileScreen,
       page: () => ProfileScreen(),
-      bindings: [ProfileScreen()],
+      bindings: [ProfileBinding()],
     ),
     GetPage(
       name: appNavigationScreen,

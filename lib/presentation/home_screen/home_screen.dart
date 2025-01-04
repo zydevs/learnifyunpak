@@ -4,7 +4,7 @@ import '../../widgets/custom_bottom_bar.dart';
 import 'controller/home_controller.dart';
 import 'home_initial_page.dart';
 
-class HomeScreen extends GetWidget<HomeCotroller> {
+class HomeScreen extends GetWidget<HomeController> {
   const HomeScreen({Key? key})
       : super(
           key: key,
@@ -17,9 +17,9 @@ class HomeScreen extends GetWidget<HomeCotroller> {
       backgroundColor: appTheme.gray50,
       body: SafeArea(
         child: Navigator(
-          key: Get.netstedkey(1),
+          key: Get.nestedKey(1),
           initialRoute: AppRoutes.homeInitialPage,
-          onGenerateRoute: (settings) => GetPageRoute(
+          onGenerateRoute: (routeSetting) => GetPageRoute(
             page: () => getCurrentPage(routeSetting.name!),
             transition: Transition.noTransition,
           ),
@@ -27,7 +27,7 @@ class HomeScreen extends GetWidget<HomeCotroller> {
       ),
       bottomNavigationBar: SizedBox(
         width: double.maxFinite,
-        child: _buildBottomNavigation(),
+        child: _buildBottomNavigationBar(),
       ),
     );
   }
@@ -38,7 +38,7 @@ class HomeScreen extends GetWidget<HomeCotroller> {
       width: double.maxFinite,
       child: CustomBottomBar(
         onChanged: (BottomBarEnum type) {
-          Get.toNamed(getCureentRoute(type), id: 1);
+          Get.toNamed(getCurrentRoute(type), id: 1);
         },
       ),
     );
@@ -49,9 +49,9 @@ class HomeScreen extends GetWidget<HomeCotroller> {
     switch (type) {
       case BottomBarEnum.Home:
         return AppRoutes.homeInitialPage;
-      case BottomBarEnum.course:
+      case BottomBarEnum.Course:
         return "/";
-      case BottomBarEnum.user:
+      case BottomBarEnum.User:
         return "/";
       default:
         return "/";
@@ -59,7 +59,7 @@ class HomeScreen extends GetWidget<HomeCotroller> {
   }
 
   //
-  Widget getCurrentPage(string currentRoute) {
+  Widget getCurrentPage(String currentRoute) {
     switch (currentRoute) {
       case AppRoutes.homeInitialPage:
         return HomeInitialPage();

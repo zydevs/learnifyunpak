@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import '../core/app_export.dart';
 import '../theme/custom_text_style.dart';
@@ -88,7 +86,7 @@ class CustomSearchView extends StatelessWidget {
   Widget get searchViewWidget => Container(
         width: width ?? double.maxFinite,
         decoration: boxDecoration,
-        child: TextFormFiel(
+        child: TextFormField(
           scrollPadding: EdgeInsets.only(
               bottom: MediaQuery.of(Get.context!).viewInsets.bottom),
           controller: controller,
@@ -144,7 +142,7 @@ class CustomSearchView extends StatelessWidget {
             ),
         isDense: true,
         contentPadding: contentPadding ?? EdgeInsets.all(6.h),
-        filLColor: fillColor,
+        fillColor: fillColor,
         filled: filled,
         border: borderDecoration ??
             OutlineInputBorder(

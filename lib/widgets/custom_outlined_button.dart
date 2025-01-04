@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import '../core/app_export.dart';
 import 'base_button.dart';
 
-class CustomOutlinedButtom extends BaseButton {
-  CustomOutlinedButtom(
+class CustomOutlinedButton extends BaseButton {
+  CustomOutlinedButton(
       {Key? key,
       this.decoration,
       this.leftIcon,
       this.rightIcon,
       this.label,
-      VoidVallback? onPressed,
+      VoidCallback? onPressed,
       ButtonStyle? buttonStyle,
       TextStyle? buttonTextStyle,
       bool? isDisabled,
@@ -43,15 +43,15 @@ class CustomOutlinedButtom extends BaseButton {
     return alignment != null
         ? Align(
             alignment: alignment ?? Alignment.center,
-            child: buildOutlinedButtonWidget)
-        : buildOutlinedButtonWidget;
+            child: buildOutlinedButtoneWidget)
+        : buildOutlinedButtoneWidget;
   }
 
   Widget get buildOutlinedButtoneWidget => Container(
     height: this.height ?? 34.h,
     width: this.width ?? double.maxFinite,
     margin: margin,
-    decoration: decoratin,
+    decoration: decoration,
     child: OutlinedButton(
       style: buttonStyle,
       onPressed: isDisabled ?? false ? null : onPressed ?? () {},
@@ -62,7 +62,7 @@ class CustomOutlinedButtom extends BaseButton {
           leftIcon ?? const SizedBox.shrink(),
           Text(
             text,
-            style: buttonTextStyle ?? theme.
+            style: buttonTextStyle ?? theme.textTheme.labelLarge,
           ),
           rightIcon ?? const SizedBox.shrink()
         ],

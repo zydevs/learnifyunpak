@@ -14,7 +14,7 @@ class MycoursesController extends GetxController
 
   Rx<int> tabIndex = 0.obs;
 
-  Rx<MycoursesallTabModel> mycousesallTabModelObj = MycousesallTabModel().obs;
+  Rx<MycoursesallTabModel> mycoursesallTabModelObj = MycoursesallTabModel().obs;
 
   @override
   void onClose() {

@@ -8,7 +8,7 @@ import '../models/homeall_tab_model.dart';
 //
 //
 //
-class HomeController extends GetController
+class HomeController extends GetxController
     with GetSingleTickerProviderStateMixin {
   TextEditingController searchController = TextEditingController();
 
@@ -21,7 +21,7 @@ class HomeController extends GetController
 
   Rx<HomeallTabModel> homeallTabModelObj = HomeallTabModel().obs;
 
-  Rx<HomeIniitialModel> homeallInitialObj = HomeaInitialModel().obs;
+  Rx<HomeInitialModel> homeallInitialObj = HomeInitialModel().obs;
 
   @override
   void onClose() {

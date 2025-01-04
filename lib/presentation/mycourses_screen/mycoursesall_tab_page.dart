@@ -5,7 +5,7 @@ import 'models/courselist_item_model.dart';
 import 'models/mycoursesall_tab_model.dart';
 import 'widgets/course_item_widget.dart';
 
-class MycoursesallTabPage extends StatelesWidget {
+class MycoursesallTabPage extends StatelessWidget {
   MycoursesallTabPage({Key? key})
       : super(
           key: key,
@@ -23,12 +23,12 @@ class MycoursesallTabPage extends StatelesWidget {
     );
   }
 
-  Widget _buildCourseListO() {
+  Widget _buildCourseList() {
     return Expanded(
       child: Obx(
         () => ListView.separated(
           padding: EdgeInsets.symmetric(horizontal: 2.h),
-          physics: RouncingScrollPhysics(),
+          physics: BouncingScrollPhysics(),
           shrinkWrap: true,
           separatorBuilder: (context, index) {
             return SizedBox(
@@ -36,10 +36,10 @@ class MycoursesallTabPage extends StatelesWidget {
             );
           },
           itemCount: controller
-              .mycousesallTabModelObj.value.courselistItemList.value.length,
+              .mycoursesallTabModelObj.value.courselistItemList.value.length,
           itemBuilder: (context, index) {
             CourselistItemModel model = controller
-                .mycousesallTabModelObj.value.courselistItemList.vlaue[index];
+                .mycoursesallTabModelObj.value.courselistItemList.value[index];
             return CourselistItemWidget(
               model,
             );

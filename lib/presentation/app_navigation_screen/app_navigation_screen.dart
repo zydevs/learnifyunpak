@@ -33,7 +33,7 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
                           color: Color(0XFF000000),
                           fontSize: 20.fSize,
                           fontFamily: 'Roboto',
-                          fontWeight: fontWeight.w400,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                     ),
@@ -42,12 +42,12 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
                       padding: EdgeInsets.only(left:20.h),
                       child: Text(
                         "Check your app's UI from the below demo screens of your app.",
-                        textAlign: textAlign.center,
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color(0XFF888888),
                           fontSize: 16.fSize,
                           fontFamily: 'Roboto',
-                          fontWeight: fontWeight.w400,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                     ),
@@ -71,7 +71,7 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
                         _buildScreenTitle(
                           screenTitle: "Spalshscreen",
                           onTapScreenTitle: () =>
-                              onTapScreenTitle(AppRoutes.SpalshscreenScreen),
+                              onTapScreenTitle(AppRoutes.splashscreenScreen),
                         ),
                         _buildScreenTitle(
                           screenTitle: "Login",
@@ -112,7 +112,7 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
 
   /// Common widget
   Widget _buildScreenTitle({
-    require String screenTitle,
+    required String screenTitle,
     Function? onTapScreenTitle,
   }) {
     return GestureDetector(
@@ -124,7 +124,7 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
           color: Color(0XFFFFFFFF),
         ),
         child: Column(
-          cildren: [
+          children: [
             SizedBox(height: 10.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.h),
@@ -135,7 +135,7 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
                   color: Color(0XFF000000),
                   fontSize: 20.fSize,
                   fontFamily: 'Roboto',
-                  fontWeight: fontWeight.w400,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
             ),

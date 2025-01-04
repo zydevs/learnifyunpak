@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../presentation/core/app_export.dart';
+import '../../core/app_export.dart';
 
 class AppbarTrailingImage extends StatelessWidget {
   AppbarTrailingImage(

@@ -1,8 +1,7 @@
-import 'dart:ffi';
 import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
 
-class CustomAppBar extends StatelessWidget implements PreferrendSizedWidget {
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   CustomAppBar(
       {Key? key,
       this.height,
@@ -37,7 +36,7 @@ class CustomAppBar extends StatelessWidget implements PreferrendSizedWidget {
       shape: shape,
       toolbarHeight: height ?? 62.h,
       automaticallyImplyLeading: false,
-      backgroundColor: colors.transparent,
+      backgroundColor: Colors.transparent,
       leadingWidth: leadingWidth ?? 0,
       leading: leading,
       title: title,

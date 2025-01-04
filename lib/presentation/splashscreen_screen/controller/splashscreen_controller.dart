@@ -1,4 +1,4 @@
-import 'pakckage:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../../../core/app_export.dart';
 import '../models/splashscreen_model.dart';
 
@@ -7,7 +7,7 @@ class SplashscreenController extends GetxController {
 
   @override
   void onReady() {
-    Future.delayed(const Duration(milliseconds: 3000), () {
+    Future.delayed(const Duration(milliseconds: 5000), () {
       Get.offNamed(
         AppRoutes.loginScreen,
       );

@@ -4,23 +4,36 @@ import '../core/app_export.dart';
 LightCodeColors get appTheme => ThemeHelper().themeColor();
 ThemeData get theme => ThemeHelper().themeData();
 
+//
+
+//
 class ThemeHelper {
+  //
   var _appTheme = PrefUtils().getThemeData();
 
+//
   Map<String, LightCodeColors> _supportedCustomColor = {
     'lightCode': LightCodeColors()
   };
 
+//
   Map<String, ColorScheme> _supportedColorScheme = {
     'lightCode': ColorSchemes.lightCodeColorScheme
   };
 
+// 
   void changeTheme(String _newTheme) {
     PrefUtils().setThemeData(_newTheme);
     Get.forceAppUpdate();
   }
 
-  LighCodeColors _getThemeColors() {
+// 
+  LightCodeColors _getThemeColors() {
+    return _supportedCustomColor[_appTheme] ?? LightCodeColors();
+  }
+
+//
+  ThemeData _getThemeData() {
     var colorScheme =
         _supportedColorScheme[_appTheme] ?? ColorSchemes.lightCodeColorScheme;
     return ThemeData(
@@ -28,10 +41,10 @@ class ThemeHelper {
       colorScheme: colorScheme,
       textTheme: TextThemes.textTheme(colorScheme),
       elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styeFrom(
+        style: ElevatedButton.styleFrom(
           backgroundColor: colorScheme.primary,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.cicular(5.h),
+            borderRadius: BorderRadius.circular(5.h),
           ),
           elevation: 0,
           visualDensity: const VisualDensity(
@@ -66,11 +79,14 @@ class ThemeHelper {
     );
   }
 
-  LightCodeCOlors themeColor() => _getThemeColors();
+//
+  LightCodeColors themeColor() => _getThemeColors();
 
+//
   ThemeData themeData() => _getThemeData();
 }
 
+//
 class TextThemes {
   static TextTheme textTheme(ColorScheme colorScheme) => TextTheme(
         bodySmall: TextStyle(
@@ -92,7 +108,7 @@ class TextThemes {
           fontWeight: FontWeight.w700,
         ),
         labelSmall: TextStyle(
-          color: appTehem.teal150,
+          color: appTheme.teal50,
           fontSize: 9.fSize,
           fontFamily: 'Plus Jakarta Sans',
           fontWeight: FontWeight.w500,

@@ -41,7 +41,7 @@ class MycoursesScreen extends GetWidget<MycoursesController> {
                 ),
               ),
               SizedBox(height: 22.h),
-              _buildTabview(),
+              _buildTabView(),
               Expanded(
                 child: Container(
                   child: TabBarView(
@@ -65,16 +65,17 @@ class MycoursesScreen extends GetWidget<MycoursesController> {
     );
   }
 
+  //section
   PreferredSizeWidget _buildAppBar() {
     return CustomAppBar(
       leadingWidth: 78.h,
       leading: AppbarLeadingImage(
-        iamgePath: ImageConstant.imgLogoUnpak,
+        imagePath: ImageConstant.imgLogoUnpak,
         margin: EdgeInsets.only(left: 14.h),
       ),
       title: AppbarSubtitle(
         text: 'lbl_my_courses'.tr,
-        margin: EdgeInsets.only(left: 17, h),
+        margin: EdgeInsets.only(left: 17.h),
       ),
       actions: [
         AppbarTrailingImage(
@@ -87,6 +88,7 @@ class MycoursesScreen extends GetWidget<MycoursesController> {
     );
   }
 
+  //section
   Widget _buildTabView() {
     return SizedBox(
       width: double.maxFinite,
@@ -129,8 +131,7 @@ class MycoursesScreen extends GetWidget<MycoursesController> {
                           borderRadius: BorderRadius.circular(
                             16.h,
                           ),
-                          border: Border,
-                          all(
+                          border: Border.all(
                             color: theme.colorScheme.onPrimaryContainer,
                             width: 0.95.h,
                           ),
@@ -141,15 +142,15 @@ class MycoursesScreen extends GetWidget<MycoursesController> {
                 ),
               ),
               Tab(
-                heiht: 32,
+                height: 32,
                 child: Container(
-                  alignment: ALignment.center,
+                  alignment: Alignment.center,
                   width: double.maxFinite,
                   margin: EdgeInsets.symmetric(horizontal: 6.h),
                   decoration: controller.tabIndex.value == 1
                       ? BoxDecoration(
                           color: theme.colorScheme.onPrimaryContainer,
-                          borderRadius: Borderradius.circular(
+                          borderRadius: BorderRadius.circular(
                             16.h,
                           ),
                           border: Border.all(
@@ -211,6 +212,7 @@ class MycoursesScreen extends GetWidget<MycoursesController> {
     );
   }
 
+  //
   Widget _buildBottomNavigationBar() {
     return SizedBox(
       width: double.maxFinite,
@@ -222,13 +224,14 @@ class MycoursesScreen extends GetWidget<MycoursesController> {
     );
   }
 
+  //
   String getCurrentRoute(BottomBarEnum type) {
     switch (type) {
       case BottomBarEnum.Home:
         return AppRoutes.homeInitialPage;
       case BottomBarEnum.Course:
         return "/";
-      case BottomBaeEnum.User:
+      case BottomBarEnum.User:
         return "/";
       default:
         return "/";

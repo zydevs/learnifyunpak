@@ -16,6 +16,7 @@ dependencies:
   shared_preferences: ^2.3.0
   connectivity_plus: ^6.0.4
   responsive_grid_list: ^1.4.0
+  intl: ^0.20.1
 
 dev_dependencies:
   flutter_test:
@@ -25,7 +26,7 @@ flutter:
   uses-material-design: true
   assets: 
     - assets/
-    - assets/images
+    - assets/images/
   fonts:
     - family: Inter
       fonts:
@@ -45,7 +46,7 @@ flutter:
       fonts:
         - asset: assets/fonts/PlusJakartaSans-Bold.ttf
           weight: 700
-        - asset: assets/fonts/PlusJakartaSansRegular.ttf
+        - asset: assets/fonts/PlusJakartaSans-Regular.ttf
           weight: 400
         - asset: assets/fonts/PlusJakartaSans-SemiBold.ttf
           weight: 600

@@ -1,11 +1,12 @@
+
 import 'package:flutter/material.dart';
 import '../../../core/app_export.dart';
 import '../controller/home_controller.dart';
 import '../models/coursegrid_item_model.dart';
 
-//
-class CoursegridItemWidget extends StatefulWidget{
-  CoursegridItemModel(this.coursegridItemModelObj, {Key? key})
+// ignore_for_file: must_be_immutable
+class CoursegridItemWidget extends StatelessWidget{
+  CoursegridItemWidget(this.coursegridItemModelObj, {Key? key})
       : super(
         key: key, 
         );
@@ -19,15 +20,15 @@ class CoursegridItemWidget extends StatefulWidget{
     return Container(
       width: double.maxFinite,
       padding: EdgeInsets.symmetric(horizontal: 4.h),
-      decoration: AppDecoration.outlinedOnPrimary1.copywith(
-        borderRadius: BorderRadiusStyle.roundedBorder5,
+      decoration: AppDecoration.outlineOnprimary1.copyWith(
+        borderRadius: BorderRadiusStyle.rounderBorder5,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          obx(
+          Obx(
             () => CustomImageView(
               imagePath: coursegridItemModelObj.covercourse!.value,
               height: 100.h,
@@ -38,7 +39,7 @@ class CoursegridItemWidget extends StatefulWidget{
             ),
           ),
           SizedBox(height: 4.h),
-          obx(
+          Obx(
             () => Text(
               coursegridItemModelObj.namecourse!.value,
               style: theme.textTheme.labelMedium,
@@ -103,7 +104,7 @@ class CoursegridItemWidget extends StatefulWidget{
                         color: theme.colorScheme.onPrimaryContainer,
                       ),
                       child: CustomImageView(
-                        imagePath: ImageConstant.imageNotFound,
+                        imagePath: ImageConstant.imgNotFound,
                       ),
                     ),
                   ),

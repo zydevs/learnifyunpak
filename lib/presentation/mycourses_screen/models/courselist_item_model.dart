@@ -1,13 +1,13 @@
 import '../../../core/app_export.dart';
 
+//
 
-
-
+// ignore_for_file: must_be_immutable
 class CourselistItemModel {
   CourselistItemModel(
-      {this.dataMiningOne,
-      this.datamining,
-      this.drfajardelli,
+      {this.covercourse,
+      this.namecourse,
+      this.lecture,
       this.requiredCourse,
       this.requiredCourse1,
       this.completed,
@@ -15,9 +15,9 @@ class CourselistItemModel {
       this.image,
       this.onehundredfifty,
       this.id}) {
-    dataMiningOne = dataMiningOne ?? Rx(ImageConstant.imgRc3);
-    datamining = datamining ?? Rx("Data Mining");
-    drfajardelli = drfajardelli ?? Rx("Dr. Fajar Delli W., M.M., M.Kom");
+    covercourse = covercourse ?? Rx(ImageConstant.imgRc3);
+    namecourse = namecourse ?? Rx("Data Mining");
+    lecture = lecture ?? Rx("Dr. Fajar Delli W., M.M., M.Kom");
     requiredCourse = requiredCourse ?? Rx(ImageConstant.imgClassIcon);
     requiredCourse1 = requiredCourse1 ?? Rx("Required Course");
     completed = completed ?? Rx("35% Completed");
@@ -27,11 +27,11 @@ class CourselistItemModel {
     id = id ?? Rx("");
   }
 
-  Rx<String>? dataMiningOne;
+  Rx<String>? covercourse;
 
-  Rx<String>? datamining;
+  Rx<String>? namecourse;
 
-  Rx<String>? drfajardelli;
+  Rx<String>? lecture;
 
   Rx<String>? requiredCourse;
 
@@ -41,7 +41,7 @@ class CourselistItemModel {
 
   Rx<String>? learned;
 
-  Rx<String> image;
+  Rx<String>? image;
 
   Rx<String>? onehundredfifty;
 

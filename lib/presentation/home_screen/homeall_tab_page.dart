@@ -31,7 +31,7 @@ class HomeallTabPage extends StatelessWidget {
   //
   Widget _buildCourseGrid() {
     return Expanded(
-      child: obx(
+      child: Obx(
         () => ResponsiveGridListBuilder(
           minItemWidth: 1,
           minItemsPerRow: 2,

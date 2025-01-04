@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import '../core/app_export.dart';
 
 class AppDecoration {
-  static BoxDecoration get FillGray => BoxDecoration(
+  static BoxDecoration get fillGray => BoxDecoration(
         color: appTheme.gray50,
       );
   static BoxDecoration get fillOnPrimary => BoxDecoration(
-        color: theme.colorScheme.OnPrimary,
+        color: theme.colorScheme.onPrimary,
         image: DecorationImage(
-          iamge: AssetImage(
-            ImageConstant.imgBackGroundlogin,
+          image: AssetImage(
+            ImageConstant.imgBackgroundlogin,
           ),
           fit: BoxFit.fill,
         ),
       );
   static BoxDecoration get fillOnPrimaryContainer => BoxDecoration(
-        color: theme.colorScheme.OnPrimaryContainer,
+        color: theme.colorScheme.onPrimaryContainer,
       );
-  Static BoxDecoration get fillOnPrimary1 => BoxDecoration(
+  static BoxDecoration get fillOnPrimary1 => BoxDecoration(
       color: theme.colorScheme.onPrimary,
       image: DecorationImage(
         image: AssetImage(

@@ -45,7 +45,7 @@ class CustomBottomBar extends StatelessWidget {
           showUnselectedLabels: false,
           selectedFontSize: 0,
           elevation: 0,
-          currrentIndex: selectedIndex.value,
+          currentIndex: selectedIndex.value,
           type: BottomNavigationBarType.fixed,
           items: List.generate(bottomMenuList.length, (index) {
             return BottomNavigationBarItem(
@@ -59,7 +59,7 @@ class CustomBottomBar extends StatelessWidget {
               height: 32.h,
               width: 42.h,
             ),
-            label: '';
+            label: '',
             );
           }),
           onTap: (index) {

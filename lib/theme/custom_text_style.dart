@@ -40,10 +40,10 @@ class CustomTextStyles {
       );
 //label text style
   static TextStyle get labelLargePlusJakartaSansGray600 =>
-      theme.textTheme.laelLarge!.plusJakartaSans.cppyWith(
+      theme.textTheme.labelLarge!.plusJakartaSans.copyWith(
         color: theme.colorScheme.secondaryContainer,
       );
-  static textStyle get labelLargeSecondaryContainer =>
+  static TextStyle get labelLargeSecondaryContainer =>
       theme.textTheme.labelLarge!.plusJakartaSans.copyWith(
         color: appTheme.gray600,
         fontWeight: FontWeight.w500,
@@ -89,7 +89,7 @@ class CustomTextStyles {
         fontSize: 7.fSize,
         fontWeight: FontWeight.w500,
       ).plusJakartaSans;
-  static TextStyle get plusJakartaSansOnPrimaryContainer => TextSyle(
+  static TextStyle get plusJakartaSansOnPrimaryContainer => TextStyle(
         color: theme.colorScheme.onPrimaryContainer,
         fontSize: 7.fSize,
         fontWeight: FontWeight.w500,
@@ -103,11 +103,11 @@ class CustomTextStyles {
       );
   static TextStyle get titleLargePlusJakartasansBlack900_1 =>
       theme.textTheme.titleLarge!.plusJakartaSans.copyWith(
-        color: apptheme.black900,
+        color: appTheme.black900,
       );
   static get titleLargePlusJakartaSans_1 =>
-      theme.textTheme.titleLarge1.plusJakartaSans;
-  static textStyle get titleMediumPlusJakartasans =>
+      theme.textTheme.titleLarge!.plusJakartaSans;
+  static TextStyle get titleMediumPlusJakartasans =>
       theme.textTheme.titleMedium!.plusJakartaSans.copyWith(
         fontSize: 19.fSize,
         fontWeight: FontWeight.w700,

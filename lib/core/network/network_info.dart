@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:learnifyunpak/main.dart';
 
-
+//cek koneksi internet
 abstract class NetworkInfoI {
   Future<bool> isConnected();
 
-  Future<List<ConnectivityResult>> get ConnectivityResult;
+  Future<List<ConnectivityResult>> get connectivityResult;
 
-  Stream<List<ConnectivityResult>> get onConnectivityChanged;
+  Stream<List<ConnectivityResult>> get onConnetivityChanged;
 }
 
 class NetworkInfo implements NetworkInfoI {
   Connectivity connectivity;
 
-  static final NetworkInfoI _networkInfo = NetworkInfo._internal(connectivity());
+  static final NetworkInfo _networkInfo = NetworkInfo._internal(Connectivity());
 
   factory NetworkInfo() {
     return _networkInfo;
@@ -24,47 +24,60 @@ class NetworkInfo implements NetworkInfoI {
     connectivity = this.connectivity;
   }
 
-  ///cheks internet is connected or not
-  ///returns [true] if intnernet is connected
-  ///else it will return [false]
+  //
+  //
+  //
   @override
   Future<bool> isConnected() async {
-    final result = await ConnectivityResult;
+    final result = await connectivityResult;
     return !result.contains(ConnectivityResult.none);
   }
 
-  // to check type of internet connectivity
+  //
   @override
-  Future<List<ConnectivityResult>> get ConnectivityResult async {
+  Future<List<ConnectivityResult>> get connectivityResult async {
     return connectivity.checkConnectivity();
   }
 
-  //check the type on internet connection on changed of internet connection
   @override
+  // ignore: override_on_non_overriding_member
   Stream<List<ConnectivityResult>> get onConnectivityChanged =>
       connectivity.onConnectivityChanged;
+      
+        @override
+        // TODO: implement onConnetivityChanged
+        Stream<List<ConnectivityResult>> get onConnetivityChanged => throw UnimplementedError();
+      
+  // @override
+  // // TODO: implement onConnetivityChanged
+  // Stream<List<ConnectivityResult>> get onConnetivityChanged => 
+  // throw UnimplementedError();
 }
 
 abstract class Failure {}
 
-// General failures
+//
 class ServerFailure extends Failure {}
 
-class ChacheFailure extends Failure {}
+class CacheFailure extends Failure {}
 
 class NetworkFailure extends Failure {}
 
 class ServerException implements Exception {}
 
-class ChaheException implements Exception {}
+class CacheException implements Exception {}
 
 class NetworkException implements Exception {}
 
-///can be used for throwing [NoInternetException]
+//
 class NoInternetException implements Exception {
   late String _message;
 
-  NoInternetException([String message = 'NointernetException Occurred']) {
+  NoInternetException(dynamic globalMessengerKey, [String message = 'NoInternetExceptin Occurred']) {
+    if (globalMessengerKey.currentState != null) {
+      globalMessengerKey.currentState!
+          .showSnackBar(SnackBar(content: Text(message)));
+    }
     this._message = message;
   }
 

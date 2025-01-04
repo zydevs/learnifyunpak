@@ -16,7 +16,7 @@ class SplashscreenScreen extends GetWidget<SplashscreenController> {
         child: SizedBox(
           width: double.maxFinite,
           child: Column(
-            MainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CustomImageView(
                 imagePath: ImageConstant.imgMainLogo,
