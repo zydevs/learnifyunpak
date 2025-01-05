@@ -35,6 +35,6 @@ class HomeallTabModel {
         covercourse: ImageConstant.imgEc2.obs,
         namecourse: "Mobile Programming".obs,
         lecturer: "Agung Prajuhana P., M.Kom.".obs,
-        catcourse: "Required Course".obs)
+        catcourse: "Elective Course".obs)
   ]);
 }

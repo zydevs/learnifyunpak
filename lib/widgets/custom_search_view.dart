@@ -118,10 +118,10 @@ class CustomSearchView extends StatelessWidget {
           padding: EdgeInsets.all(
             15.h,
           ),
-          child: Icon(
-            Icons.search,
-            color: Colors.grey.shade600,
-          ),
+          // child: Icon(
+          //   Icons.search,
+          //   color: Colors.grey.shade600,
+          // ),
         ),
         prefixIconConstraints: prefixConstraints ??
             BoxConstraints(

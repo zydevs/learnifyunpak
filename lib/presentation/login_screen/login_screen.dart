@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../core/app_export.dart';
 import '../../core/utils/validation_functions.dart';
 import '../../domain/googleauth/google_auth_helper.dart';
@@ -8,22 +9,17 @@ import '../../widgets/custom_outlined_button.dart';
 import '../../widgets/custom_text_form_field.dart';
 import 'controller/login_controller.dart';
 
-// ignore_for_file: must_be_immutable
 class LoginScreen extends GetWidget<LoginController> {
-  LoginScreen({Key? key})
-    : super(
-        key: key,
-      );
+  LoginScreen({Key? key}) : super(key: key);
 
-
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: theme.colorScheme.onPrimary,
       body: Container(
         width: double.maxFinite,
@@ -32,42 +28,144 @@ class LoginScreen extends GetWidget<LoginController> {
         child: SafeArea(
           child: Form(
             key: _formKey,
-            child: Container(
-              padding: EdgeInsets.only(
-                left: 28.h,
-                right: 28.h,
-                bottom: 140.h,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  SizedBox(height: 20.h),
-                  CustomImageView(
-                    imagePath: ImageConstant.imgSecondLogo,
-                    height: 68.h,
-                    width: double.maxFinite,
-                    margin: EdgeInsets.symmetric(horizontal: 16.h),
-                  ),
-                  SizedBox(height: 40.h),
-                  _buildLoginFormSection()
-                ],
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 40.0), // Spasi atas
+
+                    // Logo di atas
+                    CustomImageView(
+                      imagePath: ImageConstant.imgSecondLogo,
+                      height: 69.0,
+                      width: 310.0,
+                    ),
+
+                    SizedBox(height: 20.0),
+
+                    // Bungkus elemen-elemen dalam kontainer dengan dekorasi
+                    Container(
+                      padding: EdgeInsets.all(20.0), // Memberi jarak di dalam kontainer
+                      constraints: BoxConstraints(
+                        maxWidth: 410, // Maksimal lebar kontainer
+                        minWidth: 330, // Minimal lebar kontainer
+                      ),
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(width: 1, color: Color(0x3F000000)),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        shadows: [
+                          BoxShadow(
+                            color: Colors.white,
+                            blurRadius: 4,
+                            offset: Offset(0, 1),
+                            spreadRadius: 0,
+                          )
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // Judul "Log in to Your Account"
+                          Text(
+                            "msg_log_in_to_your_account".tr,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+
+                          SizedBox(height: 30.0),
+
+                          // Input Username
+                          _buildUsernameInput(),
+                          SizedBox(height: 20.0),
+
+                          // Input Password
+                          _buildPasswordInput(),
+                          SizedBox(height: 10.0),
+
+                          // Tautan "Forgot Password?"
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              "msg_forgot_password".tr,
+                              style: CustomTextStyles.bodySmallMicrosoftSansSerifRedA700.copyWith(
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
+
+                          SizedBox(height: 30.0),
+
+                          // Tombol Login
+                          _buildLoginButton(),
+
+                          SizedBox(height: 20.0),
+
+                          // Divider dengan teks "OR"
+                          Row(
+                            children: [
+                              Expanded(child: Divider()),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Text("lbl_or".tr, style: theme.textTheme.bodySmall),
+                              ),
+                              Expanded(child: Divider()),
+                            ],
+                          ),
+
+                          SizedBox(height: 20.0),
+
+                          // Tombol Login dengan Google
+                          _buildGoogleLoginButton(),
+
+                          SizedBox(height: 20.0),
+
+                          // Divider dengan teks "Don't Have Account"
+                          Row(
+                            children: [
+                              Expanded(child: Divider()),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Text("msg_dont_have_account".tr, style: theme.textTheme.bodySmall),
+                              ),
+                              Expanded(child: Divider()),
+                            ],
+                          ),
+
+                          SizedBox(height: 20.0),
+
+                          // Tombol Register
+                          _buildRegisterButton(),
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(height: 20.0), // Spasi bawah
+                  ],
+                ),
               ),
             ),
-          )
-        )
-      )
+          ),
+        ),
+      ),
     );
   }
 
-  //
-  Widget _buildUsernameInput () {
+  Widget _buildUsernameInput() {
     return CustomTextFormField(
       controller: controller.usernameInputController,
       hintText: "lbl_username".tr,
-      contentPadding: EdgeInsets.symmetric(
-        horizontal: 16.h,
-        vertical: 10.h,
-      ),
+      contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
       borderDecoration: TextFormFieldStyleHelper.fillOnPrimaryContainer,
       fillColor: theme.colorScheme.onPrimaryContainer.withOpacity(0.25),
       validator: (value) {
@@ -79,22 +177,18 @@ class LoginScreen extends GetWidget<LoginController> {
     );
   }
 
-  //
-  Widget _buildPasswordInput () {
+  Widget _buildPasswordInput() {
     return CustomTextFormField(
       controller: controller.passwordInputController,
       hintText: "lbl_password".tr,
       textInputAction: TextInputAction.done,
       textInputType: TextInputType.visiblePassword,
       obscureText: true,
-      contentPadding: EdgeInsets.symmetric(
-        horizontal: 16.h,
-        vertical: 10.h,
-      ),
+      contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
       borderDecoration: TextFormFieldStyleHelper.fillOnPrimaryContainer,
       fillColor: theme.colorScheme.onPrimaryContainer.withOpacity(0.25),
       validator: (value) {
-        if (value == null || (!isValidPassword(value, isRequired: true))) {
+        if (value == null || !isValidPassword(value, isRequired: true)) {
           return "err_msg_please_enter_valid_Password".tr;
         }
         return null;
@@ -102,135 +196,50 @@ class LoginScreen extends GetWidget<LoginController> {
     );
   }
 
-  //
-  Widget _buildLoginButton(){
+  Widget _buildLoginButton() {
     return CustomElevatedButton(
       text: "lbl_login".tr,
-    );
-  }
-
-  //
-  Widget _buildGoogleLoginButton(){
-    return CustomOutlinedButton(
-      text: "msg_login_with_google".tr,
-      leftIcon: Container(
-        margin: EdgeInsets.only(right: 10.h),
-        child: CustomImageView(
-          imagePath: ImageConstant.imgGoogle,
-          height: 22.h,
-          width: 22.h,
-          fit: BoxFit.contain,
-        ),
-      ),
-      buttonTextStyle: CustomTextStyles.labelLargeSecondaryContainer,
-      onPressed: (){
-        onTapGoogleLoginButton();
+      onPressed: () {
+        Get.toNamed(AppRoutes.homeScreen);
       },
     );
   }
 
-  // 
-  Widget _buildRegisterButton(){
+  Widget _buildGoogleLoginButton() {
+    return CustomOutlinedButton(
+      text: "msg_login_with_google".tr,
+      leftIcon: Padding(
+        padding: EdgeInsets.only(right: 10.0),
+        child: CustomImageView(
+          imagePath: ImageConstant.imgGoogle,
+          height: 22.0,
+          width: 22.0,
+          fit: BoxFit.contain,
+        ),
+      ),
+      buttonTextStyle: CustomTextStyles.labelLargeSecondaryContainer,
+      onPressed: onTapGoogleLoginButton,
+    );
+  }
+
+  Widget _buildRegisterButton() {
     return CustomElevatedButton(
       text: "lbl_register".tr,
       buttonStyle: CustomButtonStyle.fillOnPrimaryContainer,
+      onPressed: () {
+        Get.toNamed(AppRoutes.registerScreen);
+      },
     );
   }
 
-  //
-  Widget _buildLoginFormSection(){
-    return Container(
-      width: double.maxFinite,
-      decoration: AppDecoration.outlineOnPrimary.copyWith(
-        borderRadius: BorderRadiusStyle.rounderBorder20,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "msg_log_in_to_your_account".tr,
-            style: theme.textTheme.titleMedium,
-          ),
-          SizedBox(height: 20.h),
-          _buildUsernameInput(),
-          SizedBox(height: 20.h),
-          _buildPasswordInput(),
-          SizedBox(height: 20.h),
-          Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              "msg_forgot_password".tr,
-              style: 
-              CustomTextStyles.bodySmallMicrosoftSansSerifRedA700.copyWith(
-                decoration: TextDecoration.underline,
-              ),
-            ),
-          ),
-          SizedBox(height: 14.h,),
-          _buildLoginButton(),
-          SizedBox(height: 10.h),
-          SizedBox(
-            width: double.maxFinite,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Divider(),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 10.h),
-                  child: Text(
-                      "lbl_or".tr,
-                      style: theme.textTheme.bodySmall,
-                  ),
-                ),
-                Expanded(
-                  child: Divider(
-                    indent: 12.h,
-                  ),
-                )
-              ],
-            ),
-          ),
-          SizedBox(height: 8.h),
-          _buildGoogleLoginButton(),
-          SizedBox(height: 12.h),
-          SizedBox(
-            width: double.maxFinite,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Divider(),
-                ),
-                SizedBox(width: 12.h),
-                Text(
-                  "msg_dont_have_account".tr,
-                  style: theme.textTheme.bodySmall,
-                ),
-                SizedBox(width: 12.h),
-                Expanded(
-                  child: Divider(),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 8.h),
-          _buildRegisterButton(),
-          SizedBox(height: 4.h),         
-        ],
-      )
-    );
-  }
-
-  onTapGoogleLoginButton() async{
+  void onTapGoogleLoginButton() async {
     await GoogleAuthHelper().googleSignInProcess().then((googleUser) {
       if (googleUser != null) {
+        // Perform actions after successful Google login
       } else {
-        Get.snackbar('Error', 'user data is empty');
+        Get.snackbar('Error', 'User data is empty');
       }
-    }).catchError((onError){
+    }).catchError((onError) {
       Get.snackbar('Error', onError.toString());
     });
   }

@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         translations: AppLocatization(),
         locale: Get.deviceLocale,
         fallbackLocale: Locale('en', 'US'),
-        title: 'learnufyunpak',
+        title: 'learnifyunpak',
         initialRoute: AppRoutes.initialRoute,
         getPages: AppRoutes.pages,
         builder: (context, child) {

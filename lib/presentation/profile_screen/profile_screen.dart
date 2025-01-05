@@ -6,12 +6,13 @@ import '../../widgets/app_bar/appbar_trailing_image.dart';
 import '../../widgets/app_bar/custom_app_bar.dart';
 import '../../widgets/custom_bottom_bar.dart';
 import 'controller/profile_controller.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-class ProfileScreen extends GetWidget<ProfileController>{
+class ProfileScreen extends GetWidget<ProfileController> {
   const ProfileScreen({Key? key})
-    :super(
-      key: key,
-    );
+      : super(
+          key: key,
+        );
 
   @override
   Widget build(BuildContext context) {
@@ -36,36 +37,14 @@ class ProfileScreen extends GetWidget<ProfileController>{
                   _buildUserInfoSection(),
                   SizedBox(height: 18.h),
                   _buildCourseInfoStack(),
-                  SizedBox(height: 24.h),
+                  // SizedBox(height: 24.h),
+                  SizedBox(height: 36.h),
                   Container(
                     width: double.maxFinite,
-                    margin: EdgeInsets.only(
-                      left: 32.h,
-                      right: 34.h,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CustomImageView(
-                          imagePath: ImageConstant.imgCalender,
-                          height: 18.h,
-                          width: 20.h,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 14.h),
-                          child: Text(
-                            "lbl_calendar".tr,
-                            style: theme.textTheme.titleSmall,
-                          ),
-                        ),
-                        Spacer(),
-                        CustomImageView(
-                          imagePath: ImageConstant.imgArrowRight,
-                          height: 12.h,
-                          width: 8.h,
-                          alignment: Alignment.bottomCenter,
-                        )
-                      ],
+                    margin: EdgeInsets.symmetric(horizontal: 34.h),
+                    child: _buildHelpCenterRow(
+                      contrastImage: ImageConstant.imgDate,
+                      helpCenterText: "lbl_calendar".tr,
                     ),
                   ),
                   SizedBox(height: 36.h),
@@ -73,7 +52,7 @@ class ProfileScreen extends GetWidget<ProfileController>{
                     width: double.maxFinite,
                     margin: EdgeInsets.symmetric(horizontal: 34.h),
                     child: _buildHelpCenterRow(
-                      contrastImage: ImageConstant.imgTelevision,
+                      contrastImage: ImageConstant.imgGrades,
                       helpCenterText: "lbl_my_grades".tr,
                     ),
                   ),
@@ -82,8 +61,7 @@ class ProfileScreen extends GetWidget<ProfileController>{
                     width: double.maxFinite,
                     margin: EdgeInsets.symmetric(horizontal: 34.h),
                     child: _buildHelpCenterRow(
-                      contrastImage:
-                          ImageConstant.imgHelp,
+                      contrastImage: ImageConstant.imgHelp,
                       helpCenterText: "lbl_help_center".tr,
                     ),
                   ),
@@ -96,13 +74,13 @@ class ProfileScreen extends GetWidget<ProfileController>{
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomImageView(
-                          imagePath: ImageConstant.imgSave,
+                          imagePath: ImageConstant.imgInvite,
                           height: 14.h,
                           width: 16.h,
                           alignment: Alignment.bottomCenter,
                         ),
                         Align(
-                          alignment:Alignment.center,
+                          alignment: Alignment.center,
                           child: Padding(
                             padding: EdgeInsets.only(left: 20.h),
                             child: Text(
@@ -132,11 +110,16 @@ class ProfileScreen extends GetWidget<ProfileController>{
                           height: 16.h,
                           width: 14.h,
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 20.h),
-                          child: Text(
-                            "lbl_log_out".tr,
-                            style: theme.textTheme.titleSmall,
+                        GestureDetector(
+                          onTap: () {
+                            _showLogoutConfirmation(context); // Panggil metode
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 20.h),
+                            child: Text(
+                              "lbl_logout".tr,
+                              style: theme.textTheme.titleSmall,
+                            ),
                           ),
                         ),
                         Spacer(),
@@ -145,7 +128,7 @@ class ProfileScreen extends GetWidget<ProfileController>{
                           height: 12.h,
                           width: 8.h,
                           alignment: Alignment.topCenter,
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -174,7 +157,7 @@ class ProfileScreen extends GetWidget<ProfileController>{
                             decoration: BoxDecoration(
                               color: appTheme.gray600,
                               borderRadius: BorderRadius.circular(
-                              1.h,
+                                1.h,
                               ),
                             ),
                           ),
@@ -186,11 +169,11 @@ class ProfileScreen extends GetWidget<ProfileController>{
               ),
             ),
           ),
-        ),     
+        ),
       ),
       bottomNavigationBar: SizedBox(
         width: double.maxFinite,
-        child: _buildBottomNavigationBar(),
+        // child: _buildBottomNavigationBar(),
       ),
     );
   }
@@ -219,7 +202,7 @@ class ProfileScreen extends GetWidget<ProfileController>{
   }
 
   //section widget
-  Widget _buildUserInfoSection(){
+  Widget _buildUserInfoSection() {
     return Container(
       width: double.maxFinite,
       margin: EdgeInsets.only(right: 12.h),
@@ -290,26 +273,25 @@ class ProfileScreen extends GetWidget<ProfileController>{
               left: 26.h,
               right: 28.h,
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  width: double.maxFinite,
-                  child: _buildCompletedCoursesRow(
-                    completedCoursesText: "lbl_course_taken".tr,
-                    completedCoursesCount: "lbl_4".tr,
-                  ),
+            child: Column(mainAxisSize: MainAxisSize.min, children: [
+              SizedBox(
+                width: double.maxFinite,
+                child: _buildCompletedCoursesRow(
+                  completedCoursesText: "lbl_course_taken".tr,
+                  completedCoursesCount: "lbl_4".tr,
+                  iconPath: ImageConstant.imgPlus, // Tambahkan ikon plus
                 ),
-                SizedBox(height: 18.h),
-                SizedBox(
-                  width: double.maxFinite,
-                  child: _buildCompletedCoursesRow(
-                    completedCoursesText: "msg_completed_courses".tr,
-                    completedCoursesCount: "lbl_0".tr,
-                  ),
-                )
-              ],
-            ),
+              ),
+              SizedBox(height: 18.h),
+              SizedBox(
+                width: double.maxFinite,
+                child: _buildCompletedCoursesRow(
+                  completedCoursesText: "msg_completed_courses".tr,
+                  completedCoursesCount: "lbl_0".tr,
+                  iconPath: ImageConstant.imgFinish, // Tambahkan ikon selesai
+                ),
+              ),
+            ]),
           ),
           CustomImageView(
             imagePath: ImageConstant.imgLine3,
@@ -321,19 +303,7 @@ class ProfileScreen extends GetWidget<ProfileController>{
     );
   }
 
-  //section widget
-  Widget _buildBottomNavigationBar() {
-    return SizedBox(
-      width: double.maxFinite,
-      child: CustomBottomBar(
-        onChanged: (BottomBarEnum type) {
-          Get.toNamed(getCurrentRoute(type), id: 1);
-        },
-      ),
-    );
-  }
-
-  //common widget
+  //menu bawah
   Widget _buildHelpCenterRow({
     required String contrastImage,
     required String helpCenterText,
@@ -365,43 +335,67 @@ class ProfileScreen extends GetWidget<ProfileController>{
     );
   }
 
-  // common widget
+  // menu atas
   Widget _buildCompletedCoursesRow({
     required String completedCoursesText,
     required String completedCoursesCount,
+    required String iconPath, // Parameter baru untuk ikon
   }) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         CustomImageView(
-          imagePath: ImageConstant.imgPlus,
+          imagePath: iconPath, // Ikon di sebelah teks
+          width: 20.h,
           height: 20.h,
-          width: 22.h,
+          margin: EdgeInsets.only(right: 8.h), // Jarak antara ikon dan teks
         ),
-        Padding(
-          padding: EdgeInsets.only(left: 14.h),
+        Expanded(
           child: Text(
             completedCoursesText,
             style: theme.textTheme.titleSmall!.copyWith(
-              color: theme.colorScheme.onError,
+              color: theme.colorScheme.onError, // Sesuaikan warna
             ),
           ),
         ),
-        Spacer(),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Text(
-            completedCoursesCount,
-            style: theme.textTheme.titleSmall!.copyWith(
-              color: theme.colorScheme.onError,
-            ),
+        Text(
+          completedCoursesCount,
+          style: theme.textTheme.titleSmall!.copyWith(
+            color: theme.colorScheme.onError, // Sesuaikan warna
           ),
-        )
+        ),
       ],
     );
   }
 
-  //
+  // popup logout
+  void _showLogoutConfirmation(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Confirm Logout"),
+          content: Text("Are you sure you want to log out?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Tutup dialog
+              },
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Tutup dialog
+                Get.toNamed(AppRoutes.loginScreen); // Arahkan ke LoginScreen
+              },
+              child: Text("Yes"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  //navigasi
   String getCurrentRoute(BottomBarEnum type) {
     switch (type) {
       case BottomBarEnum.Home:

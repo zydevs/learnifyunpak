@@ -5,6 +5,7 @@ import 'models/courselist_item_model.dart';
 import 'models/mycoursesall_tab_model.dart';
 import 'widgets/course_item_widget.dart';
 
+// ignore_for_file: must_be_immutable
 class MycoursesallTabPage extends StatelessWidget {
   MycoursesallTabPage({Key? key})
       : super(

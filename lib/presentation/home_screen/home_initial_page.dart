@@ -46,7 +46,7 @@ class HomeInitialPage extends StatelessWidget {
                       contentPadding: EdgeInsets.fromLTRB(14.h, 6.h, 18.h, 6.h),
                     ),
                   ),
-                  SizedBox(height: 24.h),
+                  SizedBox(height: 10.h),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
@@ -57,7 +57,7 @@ class HomeInitialPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 10.h),
                   _buildTabView(),
                   Expanded(
                     child: Container(
@@ -123,7 +123,7 @@ class HomeInitialPage extends StatelessWidget {
       width: double.maxFinite,
       child: Obx(
         () => Container(
-          margin: EdgeInsets.symmetric(horizontal: 14.h),
+          margin: EdgeInsets.symmetric(horizontal: 10.h),
           child: TabBar(
             controller: controller.tabViewController,
             labelPadding: EdgeInsets.zero,
@@ -237,7 +237,8 @@ class HomeInitialPage extends StatelessWidget {
                 ),
               )
             ],
-            indicatorColor: Colors.transparent,
+            indicator: const BoxDecoration(), // Menghapus garis bawah (default indicator)
+            indicatorColor: Colors.transparent, // Back-up pengaturan
             onTap: (index) {
               controller.tabIndex.value = index;
             },

@@ -8,51 +8,50 @@ import 'controller/register_controller.dart';
 
 // ignore_for_file: must_be_immutable
 class RegisterScreen extends GetWidget<RegisterController> {
-  RegisterScreen({Key? key})
-    : super(
-        key: key,
-      );
+  RegisterScreen({Key? key}) : super(key: key);
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true, // Pastikan ini true untuk mencegah overflow
       backgroundColor: theme.colorScheme.onPrimary,
-      body: Container(
-        width: double.maxFinite,
-        height: SizeUtils.height,
-        decoration: AppDecoration.fillOnPrimary1,
-        child: SafeArea(
-          child: Form(
-            key: _formKey,
-            child: Container(
-              padding: EdgeInsets.all(28.h),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomImageView(
-                    imagePath: ImageConstant.imgSecondLogo,
-                    height: 68.h,
-                    width: double.maxFinite,
-                    margin: EdgeInsets.symmetric(horizontal: 16.h),
-                  ),
-                  SizedBox(height: 24.h),
-                  _buildRegistrationForm()
-                ],
+      body: SingleChildScrollView(
+        child: Container(
+          width: double.maxFinite,
+          height: SizeUtils.height, // Sesuaikan tinggi agar scroll dinamis
+          decoration: AppDecoration.fillOnPrimary1,
+          child: SafeArea(
+            child: Form(
+              key: _formKey,
+              child: Padding(
+                padding: EdgeInsets.all(28.h),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CustomImageView(
+                      imagePath: ImageConstant.imgSecondLogo,
+                      height: 69.0,
+                      width: 310.0,
+                      margin: EdgeInsets.symmetric(horizontal: 16.h),
+                    ),
+                    SizedBox(height: 24.h),
+                    _buildRegistrationForm(),
+                  ],
+                ),
               ),
             ),
           ),
-        ), 
+        ),
       ),
     );
   }
 
-  //
-  Widget _buildEmailInput(){
+  Widget _buildEmailInput() {
     return CustomTextFormField(
       controller: controller.emailInputController,
       hintText: "msg_enter_your_email".tr,
@@ -61,7 +60,7 @@ class RegisterScreen extends GetWidget<RegisterController> {
         horizontal: 16.h,
         vertical: 10.h,
       ),
-      validator: (value){
+      validator: (value) {
         if (value == null || (!isValidEmail(value, isRequired: true))) {
           return "err_msg_please_enter_valid_email".tr;
         }
@@ -70,8 +69,7 @@ class RegisterScreen extends GetWidget<RegisterController> {
     );
   }
 
-  //
-  Widget _buildUsernameInput () {
+  Widget _buildUsernameInput() {
     return CustomTextFormField(
       controller: controller.usernameInputController,
       hintText: "lbl_enter_username".tr,
@@ -88,8 +86,7 @@ class RegisterScreen extends GetWidget<RegisterController> {
     );
   }
 
-  //
-  Widget _buildPasswordInput () {
+  Widget _buildPasswordInput() {
     return CustomTextFormField(
       controller: controller.passwordInputController,
       hintText: "lbl_enter_password".tr,
@@ -108,11 +105,10 @@ class RegisterScreen extends GetWidget<RegisterController> {
     );
   }
 
-  //
-  Widget _buildRepeatPasswordInput(){
+  Widget _buildRepeatPasswordInput() {
     return CustomTextFormField(
-      controller: controller.passwordInputController,
-      hintText: "lbl_enter_password".tr,
+      controller: controller.repeatPasswordInputController,
+      hintText: "lbl_repeat_password".tr,
       textInputAction: TextInputAction.done,
       textInputType: TextInputType.visiblePassword,
       obscureText: true,
@@ -129,56 +125,81 @@ class RegisterScreen extends GetWidget<RegisterController> {
     );
   }
 
-  //
   Widget _buildRegisterButton() {
     return CustomElevatedButton(
       text: "lbl_register".tr,
       buttonTextStyle: CustomTextStyles.labelMediumInterOnPrimary,
+      onPressed: () {
+        Get.toNamed(AppRoutes.loginScreen);
+      },
     );
   }
 
-  //
   Widget _buildBackToLoginButton() {
     return CustomElevatedButton(
       text: "lbl_back_to_login".tr,
       buttonStyle: CustomButtonStyle.fillErorContainer,
       buttonTextStyle: CustomTextStyles.labelMediumInterOnPrimary,
+      onPressed: () {
+        Get.toNamed(AppRoutes.loginScreen);
+      },
     );
   }
 
-  //
-  Widget _buildRegistrationForm(){
-    return Container(
-      width: double.maxFinite,
-      padding: EdgeInsets.symmetric(
-        horizontal: 22.h,
-        vertical: 20.h,
-      ),
-      decoration: AppDecoration.outlineBlack.copyWith(
-        borderRadius: BorderRadiusStyle.rounderBorder20,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            "lbl_register2".tr,
-            style: theme.textTheme.titleMedium,
+  Widget _buildRegistrationForm() {
+    return Flexible(
+      child: SingleChildScrollView(
+        child: Container(
+          width: double.maxFinite,
+          padding: EdgeInsets.symmetric(
+            horizontal: 22.h,
+            vertical: 20.h,
           ),
-          SizedBox(height: 14.h),
-          _buildEmailInput(),
-          SizedBox(height: 14.h),
-          _buildUsernameInput(),
-          SizedBox(height: 14.h),
-          _buildPasswordInput(),
-          SizedBox(height: 14.h),
-          _buildRepeatPasswordInput(),
-          SizedBox(height: 34.h),
-          _buildRegisterButton(),
-          SizedBox(height: 14.h),
-          _buildBackToLoginButton(),
-          SizedBox(height: 26.h),
-        ],
+          decoration: ShapeDecoration(
+            shape: RoundedRectangleBorder(
+              side: BorderSide(width: 1, color: Color(0x3F000000)),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            shadows: [
+              BoxShadow(
+                color: Colors.white,
+                blurRadius: 4,
+                offset: Offset(0, 1),
+                spreadRadius: 0,
+              )
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "lbl_register2".tr,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              SizedBox(height: 14.h),
+              _buildEmailInput(),
+              SizedBox(height: 14.h),
+              _buildUsernameInput(),
+              SizedBox(height: 14.h),
+              _buildPasswordInput(),
+              SizedBox(height: 14.h),
+              _buildRepeatPasswordInput(),
+              SizedBox(height: 24.h),
+              _buildRegisterButton(),
+              SizedBox(height: 14.h),
+              _buildBackToLoginButton(),
+              SizedBox(height: 26.h),
+            ],
+          ),
+        ),
       ),
     );
   }
+
 }

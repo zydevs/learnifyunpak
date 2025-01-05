@@ -11,7 +11,7 @@ class CustomButtonStyle {
         padding: EdgeInsets.zero,
       );
   static ButtonStyle get fillOnPrimaryContainer => ElevatedButton.styleFrom(
-        backgroundColor: theme.colorScheme.onPrimaryContainer.withOpacity(0.72),
+        backgroundColor: theme.colorScheme.onPrimaryContainer.withOpacity(1),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.h),
         ),

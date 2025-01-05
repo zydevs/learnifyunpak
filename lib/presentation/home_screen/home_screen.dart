@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:learnifyunpak/presentation/home_screen/binding/home_binding.dart';
+import 'package:learnifyunpak/presentation/mycourses_screen/mycourses_screen.dart';
+import 'package:learnifyunpak/presentation/profile_screen/profile_screen.dart';
 import '../../core/app_export.dart';
 import '../../widgets/custom_bottom_bar.dart';
 import 'controller/home_controller.dart';
@@ -50,9 +53,9 @@ class HomeScreen extends GetWidget<HomeController> {
       case BottomBarEnum.Home:
         return AppRoutes.homeInitialPage;
       case BottomBarEnum.Course:
-        return "/";
+        return AppRoutes.mycoursesScreen;
       case BottomBarEnum.User:
-        return "/";
+        return AppRoutes.profileScreen;
       default:
         return "/";
     }
@@ -63,6 +66,10 @@ class HomeScreen extends GetWidget<HomeController> {
     switch (currentRoute) {
       case AppRoutes.homeInitialPage:
         return HomeInitialPage();
+      case AppRoutes.mycoursesScreen:
+        return MycoursesScreen();
+      case AppRoutes.profileScreen:
+        return ProfileScreen();
       default:
         return DefaultWidget();
     }

@@ -46,7 +46,14 @@ class ImageConstant {
 
   static String imgCourseSelect = '$imagePath/course_select.png';
 
-  static String imgPhotoUser = '$imagePath/ photo-user.png';
+  // profile
+  static String imgDate = '$imagePath/date.svg';
+
+  static String imgFinish = '$imagePath/finish.svg';
+
+  static String imgPhotoUser = '$imagePath/photo-user.png';
+
+  static String imgArrowRight = '$imagePath/arrowright.svg';
 
   static String imgEditFill = '$imagePath/edit-fill.png';
 
@@ -54,19 +61,15 @@ class ImageConstant {
 
   static String imgLine3 = '$imagePath/Line.svg';
 
-  static String imgCalender = '$imagePath/calender.svg';
-
-  static String imgArrowRight = '$imagePath/arrowright.svg';
-
-  static String imgTelevision = '$imagePath/finish-class.svg';
+  static String imgGrades = '$imagePath/grades.svg';
 
   static String imgHelp = '$imagePath/help.svg';
-
-  static String imgSave = '$imagePath/img_save.svg';
+  
+  static String imgInvite = '$imagePath/invite.svg';
 
   static String imgArrowDown = '$imagePath/logout.svg';
 
   static String imgUserSelect = '$imagePath/user_select.png';
 
-  static String imgNotFound = 'assets/images/image.png';
+  static String imgNotFound = '$imagePath/image.png';
 }

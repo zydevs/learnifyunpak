@@ -146,7 +146,7 @@ class ColorSchemes {
 }
 
 class LightCodeColors {
-  Color get black900 => Color(0XFF00000);
+  Color get black900 => Colors.black;
 
   Color get blueGray100 => Color(0xFFD9D9D9);
   Color get blueDray10001 => Color(0XFFCDCDCD);

@@ -1,14 +1,12 @@
-
 import 'package:flutter/material.dart';
 import '../../../core/app_export.dart';
 import '../controller/home_controller.dart';
 import '../models/coursegrid_item_model.dart';
 
-// ignore_for_file: must_be_immutable
-class CoursegridItemWidget extends StatelessWidget{
+class CoursegridItemWidget extends StatelessWidget {
   CoursegridItemWidget(this.coursegridItemModelObj, {Key? key})
       : super(
-        key: key, 
+          key: key,
         );
 
   CoursegridItemModel coursegridItemModelObj;
@@ -82,39 +80,69 @@ class CoursegridItemWidget extends StatelessWidget{
                                 ),
                               ),
                             )
-                          ],    
+                          ],
                         ),
                       )
                     ],
                   ),
                 ),
+
+                // Custom Icon
                 Align(
-                  alignment: Alignment.bottomCenter,
-                  child: IconButton(
-                    onPressed: () {}, 
-                    constraints: BoxConstraints(
-                      minHeight: 22.h,
-                      minWidth: 22.h,
+                  alignment: Alignment.bottomRight,
+                  child: TextButton(
+                    onPressed: () {
+                      // Aksi tombol dapat ditambahkan di sini
+                      print('Button Pressed!');
+                    },
+                    style: ButtonStyle(
+                      overlayColor: MaterialStateProperty.all(Colors.transparent), // Hapus efek default
                     ),
-                    padding: EdgeInsets.all(0),
-                    icon: Container(
-                      width: 22.h,
-                      height: 22.h,
-                      decoration: BoxDecoration(
-                        color: theme.colorScheme.onPrimaryContainer,
-                      ),
-                      child: CustomImageView(
-                        imagePath: ImageConstant.imgNotFound,
-                      ),
-                    ),
+                    child: _CustomIcon(),
                   ),
-                )
+                ) 
               ],
             ),
           ),
-          SizedBox(height: 2.h)          
+          SizedBox(height: 2.h)
         ],
       ),
     );
   }
 }
+
+class _CustomIcon extends StatefulWidget {
+  @override
+  __CustomIconState createState() => __CustomIconState();
+}
+
+class __CustomIconState extends State<_CustomIcon> {
+  bool isClicked = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          isClicked = !isClicked; // Mengubah status saat diklik
+        });
+      },
+      child: Container(
+        width: 35.0, // Ukuran lingkaran
+        height: 35.0,
+        decoration: BoxDecoration(
+          color: isClicked ? Colors.grey : Colors.purple, // Warna lingkaran
+          shape: BoxShape.circle,
+        ),
+        child: Center(
+          child: Icon(
+            isClicked ? Icons.close : Icons.add, // Ikon silang atau plus
+            color: Colors.white, // Warna ikon
+            size: 25.0, // Ukuran ikon
+          ),
+        ),
+      ),
+    );
+  }
+}
+
