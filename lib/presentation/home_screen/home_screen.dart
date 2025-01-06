@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:learnifyunpak/presentation/home_screen/binding/home_binding.dart';
+import 'package:learnifyunpak/presentation/mycourses_screen/binding/mycourses_binding.dart';
 import 'package:learnifyunpak/presentation/mycourses_screen/mycourses_screen.dart';
 import 'package:learnifyunpak/presentation/profile_screen/profile_screen.dart';
 import '../../core/app_export.dart';

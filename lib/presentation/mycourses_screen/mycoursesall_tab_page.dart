@@ -12,7 +12,7 @@ class MycoursesallTabPage extends StatelessWidget {
           key: key,
         );
 
-  MycoursesController controller = Get.put(MycoursesController());
+  final MycoursesController controller = Get.find<MycoursesController>();
 
   @override
   Widget build(BuildContext context) {

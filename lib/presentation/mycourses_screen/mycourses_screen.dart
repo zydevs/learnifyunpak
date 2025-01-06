@@ -9,11 +9,8 @@ import '../../widgets/custom_search_view.dart';
 import 'controller/mycourses_controller.dart';
 import 'mycoursesall_tab_page.dart';
 
-class MycoursesScreen extends GetWidget<MycoursesController> {
-  const MycoursesScreen({Key? key})
-      : super(
-          key: key,
-        );
+class MycoursesScreen extends StatelessWidget {
+  final MycoursesController controller = Get.find<MycoursesController>();
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +57,7 @@ class MycoursesScreen extends GetWidget<MycoursesController> {
       ),
       bottomNavigationBar: SizedBox(
         width: double.maxFinite,
-        child: _buildBottomNavigationBar(),
+        // child: _buildBottomNavigationBar(),
       ),
     );
   }
@@ -208,18 +205,6 @@ class MycoursesScreen extends GetWidget<MycoursesController> {
             },
           ),
         ),
-      ),
-    );
-  }
-
-  //
-  Widget _buildBottomNavigationBar() {
-    return SizedBox(
-      width: double.maxFinite,
-      child: CustomBottomBar(
-        onChanged: (BottomBarEnum type) {
-          Get.toNamed(getCurrentRoute(type), id: 1);
-        },
       ),
     );
   }

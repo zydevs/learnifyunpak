@@ -1,9 +1,6 @@
 import '../../../core/app_export.dart';
 import 'courselist_item_model.dart';
 
-
-
-
 class MycoursesallTabModel {
   Rx<List<CourselistItemModel>> courselistItemList = Rx([
     CourselistItemModel(

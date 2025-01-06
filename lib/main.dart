@@ -1,15 +1,19 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:learnifyunpak/presentation/mycourses_screen/controller/mycourses_controller.dart';
 import 'core/app_export.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  // Inisialisasi controller secara global
+  Get.put(MycoursesController());
+
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((value) {
     Logger.init(kReleaseMode ? LogMode.live : LogMode.debug);
     runApp(MyApp());
-  });
+  }); 
 }
 
 class MyApp extends StatelessWidget {

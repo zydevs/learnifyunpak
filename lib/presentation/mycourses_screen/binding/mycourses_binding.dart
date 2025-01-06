@@ -4,6 +4,7 @@ import '../controller/mycourses_controller.dart';
 class MycoursesBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => MycoursesController());
+    print("Binding MycoursesController dipanggil");
+    Get.lazyPut<MycoursesController>(() => MycoursesController());
   }
 }
