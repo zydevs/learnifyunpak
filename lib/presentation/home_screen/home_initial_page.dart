@@ -117,7 +117,7 @@ class HomeInitialPage extends StatelessWidget {
     );
   }
 
-  //
+  // filter course
   Widget _buildTabView() {
     return SizedBox(
       width: double.maxFinite,

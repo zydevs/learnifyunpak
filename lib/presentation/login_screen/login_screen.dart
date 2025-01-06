@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import '../../core/app_export.dart';
 import '../../core/utils/validation_functions.dart';
 import '../../domain/googleauth/google_auth_helper.dart';
@@ -8,11 +7,34 @@ import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_outlined_button.dart';
 import '../../widgets/custom_text_form_field.dart';
 import 'controller/login_controller.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends GetWidget<LoginController> {
   LoginScreen({Key? key}) : super(key: key);
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  
+  // sign methode
+  void signUserIn() async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: controller.emailInputController.text.trim(),
+        password: controller.passwordInputController.text.trim(),
+      );
+      Get.snackbar("Success", "You have successfully logged in.");
+      Get.offNamed(AppRoutes.homeScreen);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'email-not-found') {
+        Get.snackbar("Error", "No Email found.");
+      } else if (e.code == 'wrong-password') {
+        Get.snackbar("Error", "Wrong password.");
+      } else {
+        Get.snackbar("Error", "Your Email or Password is incorrect.");
+      }
+    } catch (e) {
+      Get.snackbar("Error", e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +70,8 @@ class LoginScreen extends GetWidget<LoginController> {
 
                     // Bungkus elemen-elemen dalam kontainer dengan dekorasi
                     Container(
-                      padding: EdgeInsets.all(20.0), // Memberi jarak di dalam kontainer
+                      padding: EdgeInsets.all(
+                          20.0), // Memberi jarak di dalam kontainer
                       constraints: BoxConstraints(
                         maxWidth: 410, // Maksimal lebar kontainer
                         minWidth: 330, // Minimal lebar kontainer
@@ -98,7 +121,9 @@ class LoginScreen extends GetWidget<LoginController> {
                             alignment: Alignment.centerRight,
                             child: Text(
                               "msg_forgot_password".tr,
-                              style: CustomTextStyles.bodySmallMicrosoftSansSerifRedA700.copyWith(
+                              style: CustomTextStyles
+                                  .bodySmallMicrosoftSansSerifRedA700
+                                  .copyWith(
                                 decoration: TextDecoration.underline,
                               ),
                             ),
@@ -117,7 +142,8 @@ class LoginScreen extends GetWidget<LoginController> {
                               Expanded(child: Divider()),
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Text("lbl_or".tr, style: theme.textTheme.bodySmall),
+                                child: Text("lbl_or".tr,
+                                    style: theme.textTheme.bodySmall),
                               ),
                               Expanded(child: Divider()),
                             ],
@@ -136,7 +162,8 @@ class LoginScreen extends GetWidget<LoginController> {
                               Expanded(child: Divider()),
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Text("msg_dont_have_account".tr, style: theme.textTheme.bodySmall),
+                                child: Text("msg_dont_have_account".tr,
+                                    style: theme.textTheme.bodySmall),
                               ),
                               Expanded(child: Divider()),
                             ],
@@ -161,22 +188,18 @@ class LoginScreen extends GetWidget<LoginController> {
     );
   }
 
+  //Input Email 
   Widget _buildUsernameInput() {
     return CustomTextFormField(
-      controller: controller.usernameInputController,
-      hintText: "lbl_username".tr,
+      controller: controller.emailInputController,
+      hintText: "Email".tr,
       contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
       borderDecoration: TextFormFieldStyleHelper.fillOnPrimaryContainer,
       fillColor: theme.colorScheme.onPrimaryContainer.withOpacity(0.25),
-      validator: (value) {
-        if (!isText(value)) {
-          return "err_msg_please_enter_valid_text".tr;
-        }
-        return null;
-      },
     );
   }
 
+  // Input Password
   Widget _buildPasswordInput() {
     return CustomTextFormField(
       controller: controller.passwordInputController,
@@ -187,12 +210,6 @@ class LoginScreen extends GetWidget<LoginController> {
       contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
       borderDecoration: TextFormFieldStyleHelper.fillOnPrimaryContainer,
       fillColor: theme.colorScheme.onPrimaryContainer.withOpacity(0.25),
-      validator: (value) {
-        if (value == null || !isValidPassword(value, isRequired: true)) {
-          return "err_msg_please_enter_valid_Password".tr;
-        }
-        return null;
-      },
     );
   }
 
@@ -200,7 +217,8 @@ class LoginScreen extends GetWidget<LoginController> {
     return CustomElevatedButton(
       text: "lbl_login".tr,
       onPressed: () {
-        Get.toNamed(AppRoutes.homeScreen);
+        // Get.toNamed(AppRoutes.homeScreen);
+        signUserIn();
       },
     );
   }

@@ -1,3 +1,5 @@
+import 'package:learnifyunpak/presentation/auth_page/auth_page.dart';
+
 import '../core/app_export.dart';
 import '../presentation/app_navigation_screen/app_navigation_screen.dart';
 import '../presentation/app_navigation_screen/binding/app_navigation_binding.dart';
@@ -17,6 +19,8 @@ import '../presentation/splashscreen_screen/splashscreen_screen.dart';
 // ignore_for_file: must_be_immutable
 class AppRoutes {
   static const String splashscreenScreen = '/splashscreen_screen';
+  
+  static const String authPage = '/auth_page';
 
   static const String loginScreen = '/login_screen';
 
@@ -43,6 +47,10 @@ class AppRoutes {
       name: splashscreenScreen,
       page: () => SplashscreenScreen(),
       bindings: [SplashscreenBinding()],
+    ),
+    GetPage(
+      name: authPage, 
+      page: () => AuthPage(),
     ),
     GetPage(
       name: loginScreen,

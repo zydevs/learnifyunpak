@@ -85,25 +85,25 @@ class MycoursesScreen extends StatelessWidget {
     );
   }
 
-  //section
+  // filter course
   Widget _buildTabView() {
     return SizedBox(
       width: double.maxFinite,
       child: Obx(
         () => Container(
-          margin: EdgeInsets.symmetric(horizontal: 14.h),
+          margin: EdgeInsets.symmetric(horizontal: 10.h),
           child: TabBar(
             controller: controller.tabviewController,
             labelPadding: EdgeInsets.zero,
-            labelColor: appTheme.teal50,
+            labelColor: theme.colorScheme.onPrimary,
             labelStyle: TextStyle(
-              fontSize: 11.349597930908203.fSize,
+              fontSize: 11.fSize,
               fontFamily: 'Plus Jakarta Sans',
               fontWeight: FontWeight.w600,
             ),
             unselectedLabelColor: theme.colorScheme.onPrimaryContainer,
             unselectedLabelStyle: TextStyle(
-              fontSize: 11.349597930908203.fSize,
+              fontSize: 11.fSize,
               fontFamily: 'Plus Jakarta Sans',
               fontWeight: FontWeight.w600,
             ),
@@ -116,25 +116,27 @@ class MycoursesScreen extends StatelessWidget {
                   margin: EdgeInsets.only(right: 6.h),
                   decoration: controller.tabIndex.value == 0
                       ? BoxDecoration(
-                          color: theme.colorScheme.onPrimaryContainer,
-                          borderRadius: BorderRadius.circular(
-                            16.h,
-                          ),
-                          border: Border.all(
-                            color: theme.colorScheme.onPrimaryContainer,
-                            width: 0.95.h,
-                          ))
-                      : BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                            16.h,
-                          ),
-                          border: Border.all(
-                            color: theme.colorScheme.onPrimaryContainer,
-                            width: 0.95.h,
-                          ),
+                        color: theme.colorScheme.onPrimaryContainer,
+                        borderRadius: BorderRadius.circular(
+                          16.h,
                         ),
+                        border: Border.all(
+                          color: theme.colorScheme.onPrimaryContainer,
+                          width: 0.95.h,
+                          strokeAlign: BorderSide.strokeAlignOutside,
+                        ))
+                      : BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                          16.h,
+                        ),
+                        border: Border.all(
+                          color: theme.colorScheme.onPrimaryContainer,
+                          width: 0.95,
+                          strokeAlign: BorderSide.strokeAlignOutside,
+                        ),
+                      ),
                   child: Text(
-                    'lbl_all_course'.tr,
+                    "lbl_all_course".tr,
                   ),
                 ),
               ),
@@ -146,23 +148,25 @@ class MycoursesScreen extends StatelessWidget {
                   margin: EdgeInsets.symmetric(horizontal: 6.h),
                   decoration: controller.tabIndex.value == 1
                       ? BoxDecoration(
-                          color: theme.colorScheme.onPrimaryContainer,
-                          borderRadius: BorderRadius.circular(
-                            16.h,
-                          ),
-                          border: Border.all(
-                            color: theme.colorScheme.onPrimaryContainer,
-                            width: 0.95.h,
-                          ))
-                      : BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                            16.h,
-                          ),
-                          border: Border.all(
-                            color: theme.colorScheme.onPrimaryContainer,
-                            width: 0.95.h,
-                          ),
+                        color: theme.colorScheme.onPrimaryContainer,
+                        borderRadius: BorderRadius.circular(
+                          16.h,
                         ),
+                        border: Border.all(
+                          color: theme.colorScheme.onPrimaryContainer,
+                          width: 0.95.h,
+                          strokeAlign: BorderSide.strokeAlignOutside,
+                        ))
+                      : BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                          16.h,
+                        ),
+                        border: Border.all(
+                          color: theme.colorScheme.onPrimaryContainer,
+                          width: 0.95,
+                          strokeAlign: BorderSide.strokeAlignOutside,
+                        ),
+                      ),
                   child: Text(
                     "lbl_in_progress".tr,
                   ),
@@ -176,32 +180,35 @@ class MycoursesScreen extends StatelessWidget {
                   margin: EdgeInsets.only(left: 6.h),
                   decoration: controller.tabIndex.value == 2
                       ? BoxDecoration(
-                          color: theme.colorScheme.onPrimaryContainer,
-                          borderRadius: BorderRadius.circular(
-                            16.h,
-                          ),
-                          border: Border.all(
-                            color: theme.colorScheme.onPrimaryContainer,
-                            width: 0.95.h,
-                          ))
-                      : BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                            16.h,
-                          ),
-                          border: Border.all(
-                            color: theme.colorScheme.onPrimaryContainer,
-                            width: 0.95.h,
-                          ),
+                        color: theme.colorScheme.onPrimaryContainer,
+                        borderRadius: BorderRadius.circular(
+                          16.h,
                         ),
+                        border: Border.all(
+                          color: theme.colorScheme.onPrimaryContainer,
+                          width: 0.95.h,
+                          strokeAlign: BorderSide.strokeAlignOutside,
+                        ))
+                      : BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                          16.h,
+                        ),
+                        border: Border.all(
+                          color: theme.colorScheme.onPrimaryContainer,
+                          width: 0.95,
+                          strokeAlign: BorderSide.strokeAlignOutside,
+                        ),
+                      ),
                   child: Text(
-                    'lbl_completed'.tr,
+                    "msg_completed_courses".tr,
                   ),
                 ),
-              ),
+              )
             ],
-            indicatorColor: Colors.transparent,
+            indicator: const BoxDecoration(), // Menghapus garis bawah (default indicator)
+            indicatorColor: Colors.transparent, // Back-up pengaturan
             onTap: (index) {
-              controller.tabIndex.value - index;
+              controller.tabIndex.value = index;
             },
           ),
         ),

@@ -3,8 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:learnifyunpak/presentation/mycourses_screen/controller/mycourses_controller.dart';
 import 'core/app_export.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   WidgetsFlutterBinding.ensureInitialized();
   // Inisialisasi controller secara global
   Get.put(MycoursesController());
@@ -13,7 +19,7 @@ void main() {
       .then((value) {
     Logger.init(kReleaseMode ? LogMode.live : LogMode.debug);
     runApp(MyApp());
-  }); 
+  });
 }
 
 class MyApp extends StatelessWidget {
