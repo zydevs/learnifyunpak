@@ -8,23 +8,46 @@ import '../../widgets/custom_outlined_button.dart';
 import '../../widgets/custom_text_form_field.dart';
 import 'controller/login_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../widgets/waves_dots_loading.dart';
 
 class LoginScreen extends GetWidget<LoginController> {
   LoginScreen({Key? key}) : super(key: key);
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  
-  // sign methode
-  void signUserIn() async {
+
+  // loading method
+  void showWaveDotsLoading(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Mencegah dialog tertutup tanpa aksi
+      builder: (context) {
+        return const Center(
+          child: WaveDotsLoading(), // Animasi loading
+        );
+      },
+    );
+  }
+
+  // Login method
+  void userLogin(BuildContext context) async {
+    // Show loading dialog
+    showWaveDotsLoading(context);
+
+    // Proses login
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: controller.emailInputController.text.trim(),
         password: controller.passwordInputController.text.trim(),
       );
+
+      // Berhasil login
+      Navigator.of(context).pop(); // Tutup loading dialog
       Get.snackbar("Success", "You have successfully logged in.");
-      Get.offNamed(AppRoutes.homeScreen);
+      Get.offNamed(AppRoutes.homeScreen); // Arahkan ke home screen
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'email-not-found') {
+      Navigator.of(context).pop(); // Tutup loading dialog
+
+      if (e.code == 'user-not-found') {
         Get.snackbar("Error", "No Email found.");
       } else if (e.code == 'wrong-password') {
         Get.snackbar("Error", "Wrong password.");
@@ -32,6 +55,7 @@ class LoginScreen extends GetWidget<LoginController> {
         Get.snackbar("Error", "Your Email or Password is incorrect.");
       }
     } catch (e) {
+      Navigator.of(context).pop(); // Tutup loading dialog
       Get.snackbar("Error", e.toString());
     }
   }
@@ -116,23 +140,10 @@ class LoginScreen extends GetWidget<LoginController> {
                           _buildPasswordInput(),
                           SizedBox(height: 10.0),
 
-                          // Tautan "Forgot Password?"
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              "msg_forgot_password".tr,
-                              style: CustomTextStyles
-                                  .bodySmallMicrosoftSansSerifRedA700
-                                  .copyWith(
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                          ),
-
-                          SizedBox(height: 30.0),
+                          SizedBox(height: 20.0),
 
                           // Tombol Login
-                          _buildLoginButton(),
+                          _buildLoginButton(context),
 
                           SizedBox(height: 20.0),
 
@@ -162,7 +173,7 @@ class LoginScreen extends GetWidget<LoginController> {
                               Expanded(child: Divider()),
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Text("msg_dont_have_account".tr,
+                                child: Text("Dont Have Account?".tr,
                                     style: theme.textTheme.bodySmall),
                               ),
                               Expanded(child: Divider()),
@@ -188,7 +199,7 @@ class LoginScreen extends GetWidget<LoginController> {
     );
   }
 
-  //Input Email 
+  //Input Email
   Widget _buildUsernameInput() {
     return CustomTextFormField(
       controller: controller.emailInputController,
@@ -213,12 +224,15 @@ class LoginScreen extends GetWidget<LoginController> {
     );
   }
 
-  Widget _buildLoginButton() {
+  Widget _buildLoginButton(BuildContext context) {
     return CustomElevatedButton(
       text: "lbl_login".tr,
       onPressed: () {
-        // Get.toNamed(AppRoutes.homeScreen);
-        signUserIn();
+        if (_formKey.currentState?.validate() ?? false) {
+          userLogin(context); // Meneruskan BuildContext ke userLogin
+        } else {
+          Get.snackbar("Error", "Please fill in all required fields.");
+        }
       },
     );
   }

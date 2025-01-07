@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
 import '../../widgets/app_bar/appbar_leading_image.dart';
@@ -6,7 +7,8 @@ import '../../widgets/app_bar/custom_app_bar.dart';
 import '../../widgets/custom_search_view.dart';
 import 'controller/home_controller.dart';
 import 'homeall_tab_page.dart';
-import 'models/home_initial_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'controller/user_controller.dart';
 
 // ignore_for_file: must_be_immutable
 class HomeInitialPage extends StatelessWidget {
@@ -14,11 +16,16 @@ class HomeInitialPage extends StatelessWidget {
       : super(
           key: key,
         );
+ 
+  final user = FirebaseAuth.instance.currentUser!;
 
   HomeController controller = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
+    // Memastikan data profil pengguna diambil saat halaman dibuka
+    Get.find<UserProfileController>().fetchUserProfile();
+
     return Container(
       width: double.maxFinite,
       decoration: AppDecoration.fillGray,
@@ -79,9 +86,12 @@ class HomeInitialPage extends StatelessWidget {
       ),
     );
   }
-
+  
   //
   PreferredSizeWidget _buildAppBar() {
+    // Ambil controller yang sudah diinisialisasi
+    final userProfileController = Get.find<UserProfileController>();
+
     return CustomAppBar(
       leadingWidth: 78.h,
       leading: AppbarLeadingImage(
@@ -98,7 +108,7 @@ class HomeInitialPage extends StatelessWidget {
                 style: CustomTextStyles.titleLargePlusJakartasansBlack900_1,
               ),
               TextSpan(
-                text: "lbl_pulan".tr,
+                text: userProfileController.fullName.value,
                 style: CustomTextStyles.titleLargePlusJakartaSans,
               )
             ],
@@ -148,25 +158,25 @@ class HomeInitialPage extends StatelessWidget {
                   margin: EdgeInsets.only(right: 6.h),
                   decoration: controller.tabIndex.value == 0
                       ? BoxDecoration(
-                        color: theme.colorScheme.onPrimaryContainer,
-                        borderRadius: BorderRadius.circular(
-                          16.h,
-                        ),
-                        border: Border.all(
                           color: theme.colorScheme.onPrimaryContainer,
-                          width: 0.95.h,
-                          strokeAlign: BorderSide.strokeAlignOutside,
-                        ))
+                          borderRadius: BorderRadius.circular(
+                            16.h,
+                          ),
+                          border: Border.all(
+                            color: theme.colorScheme.onPrimaryContainer,
+                            width: 0.95.h,
+                            strokeAlign: BorderSide.strokeAlignOutside,
+                          ))
                       : BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          16.h,
+                          borderRadius: BorderRadius.circular(
+                            16.h,
+                          ),
+                          border: Border.all(
+                            color: theme.colorScheme.onPrimaryContainer,
+                            width: 0.95,
+                            strokeAlign: BorderSide.strokeAlignOutside,
+                          ),
                         ),
-                        border: Border.all(
-                          color: theme.colorScheme.onPrimaryContainer,
-                          width: 0.95,
-                          strokeAlign: BorderSide.strokeAlignOutside,
-                        ),
-                      ),
                   child: Text(
                     "lbl_all_course".tr,
                   ),
@@ -180,25 +190,25 @@ class HomeInitialPage extends StatelessWidget {
                   margin: EdgeInsets.symmetric(horizontal: 6.h),
                   decoration: controller.tabIndex.value == 1
                       ? BoxDecoration(
-                        color: theme.colorScheme.onPrimaryContainer,
-                        borderRadius: BorderRadius.circular(
-                          16.h,
-                        ),
-                        border: Border.all(
                           color: theme.colorScheme.onPrimaryContainer,
-                          width: 0.95.h,
-                          strokeAlign: BorderSide.strokeAlignOutside,
-                        ))
+                          borderRadius: BorderRadius.circular(
+                            16.h,
+                          ),
+                          border: Border.all(
+                            color: theme.colorScheme.onPrimaryContainer,
+                            width: 0.95.h,
+                            strokeAlign: BorderSide.strokeAlignOutside,
+                          ))
                       : BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          16.h,
+                          borderRadius: BorderRadius.circular(
+                            16.h,
+                          ),
+                          border: Border.all(
+                            color: theme.colorScheme.onPrimaryContainer,
+                            width: 0.95,
+                            strokeAlign: BorderSide.strokeAlignOutside,
+                          ),
                         ),
-                        border: Border.all(
-                          color: theme.colorScheme.onPrimaryContainer,
-                          width: 0.95,
-                          strokeAlign: BorderSide.strokeAlignOutside,
-                        ),
-                      ),
                   child: Text(
                     "lbl_required_course".tr,
                   ),
@@ -212,32 +222,33 @@ class HomeInitialPage extends StatelessWidget {
                   margin: EdgeInsets.only(left: 6.h),
                   decoration: controller.tabIndex.value == 2
                       ? BoxDecoration(
-                        color: theme.colorScheme.onPrimaryContainer,
-                        borderRadius: BorderRadius.circular(
-                          16.h,
-                        ),
-                        border: Border.all(
                           color: theme.colorScheme.onPrimaryContainer,
-                          width: 0.95.h,
-                          strokeAlign: BorderSide.strokeAlignOutside,
-                        ))
+                          borderRadius: BorderRadius.circular(
+                            16.h,
+                          ),
+                          border: Border.all(
+                            color: theme.colorScheme.onPrimaryContainer,
+                            width: 0.95.h,
+                            strokeAlign: BorderSide.strokeAlignOutside,
+                          ))
                       : BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          16.h,
+                          borderRadius: BorderRadius.circular(
+                            16.h,
+                          ),
+                          border: Border.all(
+                            color: theme.colorScheme.onPrimaryContainer,
+                            width: 0.95,
+                            strokeAlign: BorderSide.strokeAlignOutside,
+                          ),
                         ),
-                        border: Border.all(
-                          color: theme.colorScheme.onPrimaryContainer,
-                          width: 0.95,
-                          strokeAlign: BorderSide.strokeAlignOutside,
-                        ),
-                      ),
                   child: Text(
                     "lbl_elective_course".tr,
                   ),
                 ),
               )
             ],
-            indicator: const BoxDecoration(), // Menghapus garis bawah (default indicator)
+            indicator:
+                const BoxDecoration(), // Menghapus garis bawah (default indicator)
             indicatorColor: Colors.transparent, // Back-up pengaturan
             onTap: (index) {
               controller.tabIndex.value = index;

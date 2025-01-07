@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
-import '../../core/utils/validation_functions.dart'; 
+// import '../../core/utils/validation_functions.dart';
 import '../../theme/custom_button_style.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_text_form_field.dart';
 import 'controller/register_controller.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../widgets/waves_dots_loading.dart';
 
 // ignore_for_file: must_be_immutable
 class RegisterScreen extends GetWidget<RegisterController> {
@@ -12,12 +15,73 @@ class RegisterScreen extends GetWidget<RegisterController> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  // loading method
+  void showWaveDotsLoading(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Mencegah dialog tertutup tanpa aksi
+      builder: (context) {
+        return const Center(
+          child: WaveDotsLoading(), // Animasi loading
+        );
+      },
+    );
+  }
+
+  void userRegis(BuildContext context) async {
+    // Tampilkan loading dialog
+    showWaveDotsLoading(context);
+
+    // Proses registrasi
+    try {
+      // Periksa apakah password dan repeat password cocok
+      if (controller.passwordInputController.text.trim() ==
+          controller.confirmPasswordInputController.text.trim()) {
+        
+        // Proses pendaftaran akun dengan Firebase
+        UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: controller.emailInputController.text.trim(),
+          password: controller.passwordInputController.text.trim(),
+        );
+
+        // Menyimpan username dan data lainnya ke Firestore setelah pendaftaran
+        await FirebaseFirestore.instance.collection('users').doc(userCredential.user?.uid).set({
+          'fullName': controller.fullNameInputController.text.trim(),
+          'email': controller.emailInputController.text.trim(),
+          'createdAt': FieldValue.serverTimestamp(),
+        });
+
+        // Menutup loading dialog
+        Get.back(); // Menggunakan Get untuk menutup dialog loading
+
+        // Menampilkan snackbar success
+        Get.snackbar("Success", "Your account has been successfully created. Please Login!");
+
+        // Pindah ke halaman login
+        Get.offNamed(AppRoutes.loginScreen);
+
+      } else {
+        // Jika password tidak cocok
+        Get.back(); // Menutup loading dialog
+        Get.snackbar("Error", "Passwords don't match!");
+      }
+
+    } catch (e) {
+      // Menutup loading dialog
+      Get.back();
+
+      // Menampilkan snackbar error
+      Get.snackbar("Error", e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
-      resizeToAvoidBottomInset: true, // Pastikan ini true untuk mencegah overflow
+      resizeToAvoidBottomInset:
+          true, // Pastikan ini true untuk mencegah overflow
       backgroundColor: theme.colorScheme.onPrimary,
       body: SingleChildScrollView(
         child: Container(
@@ -60,29 +124,17 @@ class RegisterScreen extends GetWidget<RegisterController> {
         horizontal: 16.h,
         vertical: 10.h,
       ),
-      validator: (value) {
-        if (value == null || (!isValidEmail(value, isRequired: true))) {
-          return "err_msg_please_enter_valid_email".tr;
-        }
-        return null;
-      },
     );
   }
 
   Widget _buildUsernameInput() {
     return CustomTextFormField(
-      controller: controller.usernameInputController,
-      hintText: "lbl_enter_username".tr,
+      controller: controller.fullNameInputController,
+      hintText: "Enter Full Name".tr,
       contentPadding: EdgeInsets.symmetric(
         horizontal: 16.h,
         vertical: 10.h,
       ),
-      validator: (value) {
-        if (!isText(value)) {
-          return "err_msg_please_enter_valid_text".tr;
-        }
-        return null;
-      },
     );
   }
 
@@ -96,19 +148,13 @@ class RegisterScreen extends GetWidget<RegisterController> {
         horizontal: 16.h,
         vertical: 10.h,
       ),
-      validator: (value) {
-        if (value == null || (!isValidPassword(value, isRequired: true))) {
-          return "err_msg_please_enter_valid_Password".tr;
-        }
-        return null;
-      },
     );
   }
 
   Widget _buildRepeatPasswordInput() {
     return CustomTextFormField(
-      controller: controller.repeatPasswordInputController,
-      hintText: "lbl_repeat_password".tr,
+      controller: controller.confirmPasswordInputController,
+      hintText: "Confirm Password".tr,
       textInputAction: TextInputAction.done,
       textInputType: TextInputType.visiblePassword,
       obscureText: true,
@@ -116,21 +162,19 @@ class RegisterScreen extends GetWidget<RegisterController> {
         horizontal: 16.h,
         vertical: 10.h,
       ),
-      validator: (value) {
-        if (value == null || (!isValidPassword(value, isRequired: true))) {
-          return "err_msg_please_enter_valid_Password".tr;
-        }
-        return null;
-      },
     );
   }
 
-  Widget _buildRegisterButton() {
+  Widget _buildRegisterButton(BuildContext context) {
     return CustomElevatedButton(
       text: "lbl_register".tr,
       buttonTextStyle: CustomTextStyles.labelMediumInterOnPrimary,
       onPressed: () {
-        Get.toNamed(AppRoutes.loginScreen);
+        if (_formKey.currentState?.validate() ?? false) {
+          userRegis(Get.context!); // Meneruskan BuildContext ke userLogin
+        } else {
+          Get.snackbar("Error", "Please fill in all required fields.");
+        }
       },
     );
   }
@@ -191,7 +235,7 @@ class RegisterScreen extends GetWidget<RegisterController> {
               SizedBox(height: 14.h),
               _buildRepeatPasswordInput(),
               SizedBox(height: 24.h),
-              _buildRegisterButton(),
+              _buildRegisterButton(Get.context!),
               SizedBox(height: 14.h),
               _buildBackToLoginButton(),
               SizedBox(height: 26.h),
@@ -201,5 +245,4 @@ class RegisterScreen extends GetWidget<RegisterController> {
       ),
     );
   }
-
 }

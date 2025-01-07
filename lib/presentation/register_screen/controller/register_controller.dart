@@ -4,10 +4,10 @@ import '../models/register_model.dart';
 
 
 class RegisterController extends GetxController {
-  TextEditingController emailInputController = TextEditingController();
-  TextEditingController usernameInputController= TextEditingController();
-  TextEditingController passwordInputController= TextEditingController();
-  TextEditingController repeatPasswordInputController = TextEditingController();
+  final emailInputController = TextEditingController();
+  final fullNameInputController= TextEditingController();
+  final passwordInputController= TextEditingController();
+  final confirmPasswordInputController = TextEditingController();
 
   Rx<RegisterModel> registerModel0bj = RegisterModel().obs;
 
@@ -15,9 +15,9 @@ class RegisterController extends GetxController {
   void onClose(){
     super.onClose();
     emailInputController.dispose();
-    usernameInputController.dispose();
+    fullNameInputController.dispose();
     passwordInputController.dispose();
-    repeatPasswordInputController.dispose();
+    confirmPasswordInputController.dispose();
   }
 
 }

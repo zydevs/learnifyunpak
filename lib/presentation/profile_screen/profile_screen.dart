@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../home_screen/controller/user_controller.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../core/app_export.dart';
 import '../../widgets/app_bar/appbar_leading_image.dart';
 import '../../widgets/app_bar/appbar_subtitle.dart';
@@ -9,13 +12,18 @@ import 'controller/profile_controller.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ProfileScreen extends GetWidget<ProfileController> {
-  const ProfileScreen({Key? key})
+  ProfileScreen({Key? key})
       : super(
           key: key,
         );
+  
+  final user = FirebaseAuth.instance.currentUser!;
 
   @override
   Widget build(BuildContext context) {
+    // Memastikan data profil pengguna diambil saat halaman dibuka
+    Get.find<UserProfileController>().fetchUserProfile();
+
     return Scaffold(
       backgroundColor: theme.colorScheme.onPrimary,
       appBar: _buildAppBar(),
@@ -37,7 +45,6 @@ class ProfileScreen extends GetWidget<ProfileController> {
                   _buildUserInfoSection(),
                   SizedBox(height: 18.h),
                   _buildCourseInfoStack(),
-                  // SizedBox(height: 24.h),
                   SizedBox(height: 36.h),
                   Container(
                     width: double.maxFinite,
@@ -109,6 +116,9 @@ class ProfileScreen extends GetWidget<ProfileController> {
                           imagePath: ImageConstant.imgArrowDown,
                           height: 16.h,
                           width: 14.h,
+                           onTap: () {
+                            _showLogoutConfirmation(context); // Panggil metode
+                          },
                         ),
                         GestureDetector(
                           onTap: () {
@@ -128,6 +138,9 @@ class ProfileScreen extends GetWidget<ProfileController> {
                           height: 12.h,
                           width: 8.h,
                           alignment: Alignment.topCenter,
+                           onTap: () {
+                            _showLogoutConfirmation(context); // Panggil metode
+                          },
                         ),
                       ],
                     ),
@@ -178,7 +191,7 @@ class ProfileScreen extends GetWidget<ProfileController> {
     );
   }
 
-  //section widget
+  //section title page
   PreferredSizeWidget _buildAppBar() {
     return CustomAppBar(
       leadingWidth: 78.h,
@@ -201,64 +214,90 @@ class ProfileScreen extends GetWidget<ProfileController> {
     );
   }
 
-  //section widget
+  //section profile
   Widget _buildUserInfoSection() {
-    return Container(
-      width: double.maxFinite,
-      margin: EdgeInsets.only(right: 12.h),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CustomImageView(
-            imagePath: ImageConstant.imgPhotoUser,
-            height: 100.h,
-            width: 100.h,
-            alignment: Alignment.center,
-          ),
-          SizedBox(width: 24.h),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(top: 12.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: double.maxFinite,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            "lbl_pulan".tr,
-                            style: CustomTextStyles.titleLargePlusJakartaSans_1,
-                          ),
-                        ),
-                        CustomImageView(
-                          imagePath: ImageConstant.imgEditFill,
-                          height: 18.h,
-                          width: 20.h,
-                          margin: EdgeInsets.only(top: 2.h),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 12.h),
-                  Text(
-                    "msg_065122000_student_unpak_ac_id".tr,
-                    style: CustomTextStyles.labelLargePlusJakartaSansGray600,
-                  )
-                ],
+    // Ambil controller yang sudah diinisialisasi
+    final userProfileController = Get.find<UserProfileController>();
+
+    return FutureBuilder<DocumentSnapshot>(
+      future: FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        }
+
+        if (snapshot.hasError) {
+          return Text('Error fetching user data');
+        }
+
+        if (!snapshot.hasData) {
+          return Text('User not found');
+        }
+
+        // Ambil nama lengkap pengguna
+        String fullName = snapshot.data!['fullName'] ?? 'No Name Available';
+
+        return Container(
+          width: double.maxFinite,
+          margin: EdgeInsets.only(right: 12.h),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomImageView(
+                imagePath: ImageConstant.imgPhotoUser,
+                height: 100.h,
+                width: 100.h,
+                alignment: Alignment.center,
               ),
-            ),
-          )
-        ],
-      ),
+              SizedBox(width: 24.h),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(top: 12.h),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: double.maxFinite,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                fullName, // Ganti dengan nama lengkap pengguna
+                                style: CustomTextStyles.titleLargePlusJakartaSans_1,
+                              ),
+                            ),
+                            CustomImageView(
+                              imagePath: ImageConstant.imgEditFill,
+                              height: 18.h,
+                              width: 20.h,
+                              margin: EdgeInsets.only(top: 2.h),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 12.h),
+                      Text(
+                        user?.email ?? "No Email Available", // Tampilkan email atau teks default jika null
+                        style: CustomTextStyles.labelLargePlusJakartaSansGray600,
+                      )
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 
-  //section widget
+  //section menu 1
   Widget _buildCourseInfoStack() {
     return Container(
       height: 112.h,
@@ -303,7 +342,7 @@ class ProfileScreen extends GetWidget<ProfileController> {
     );
   }
 
-  //menu bawah
+  //section menu 2
   Widget _buildHelpCenterRow({
     required String contrastImage,
     required String helpCenterText,
@@ -335,39 +374,52 @@ class ProfileScreen extends GetWidget<ProfileController> {
     );
   }
 
-  // menu atas
+  // menu 1
   Widget _buildCompletedCoursesRow({
     required String completedCoursesText,
     required String completedCoursesCount,
-    required String iconPath, // Parameter baru untuk ikon
+    required String iconPath,
   }) {
     return Row(
       children: [
         CustomImageView(
-          imagePath: iconPath, // Ikon di sebelah teks
+          imagePath: iconPath,
           width: 20.h,
           height: 20.h,
-          margin: EdgeInsets.only(right: 8.h), // Jarak antara ikon dan teks
+          margin: EdgeInsets.only(right: 8.h),
         ),
         Expanded(
           child: Text(
             completedCoursesText,
             style: theme.textTheme.titleSmall!.copyWith(
-              color: theme.colorScheme.onError, // Sesuaikan warna
+              color: theme.colorScheme.onError, 
             ),
           ),
         ),
         Text(
           completedCoursesCount,
           style: theme.textTheme.titleSmall!.copyWith(
-            color: theme.colorScheme.onError, // Sesuaikan warna
+            color: theme.colorScheme.onError, 
           ),
         ),
       ],
     );
   }
 
-  // popup logout
+  // Methode logout
+  void userLogout() {
+    FirebaseAuth.instance.signOut().then((_) {
+      Get.toNamed(AppRoutes.loginScreen); // Arahkan ke layar login
+    }).catchError((error) {
+      Get.snackbar(
+        "Logout Failed",
+        "Error: $error",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    });
+  }
+
+  // Popup logout
   void _showLogoutConfirmation(BuildContext context) {
     showDialog(
       context: context,
@@ -378,14 +430,14 @@ class ProfileScreen extends GetWidget<ProfileController> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Tutup dialog
+                Navigator.of(context).pop(); 
               },
               child: Text("Cancel"),
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Tutup dialog
-                Get.toNamed(AppRoutes.loginScreen); // Arahkan ke LoginScreen
+                Navigator.of(context).pop(); 
+                userLogout();
               },
               child: Text("Yes"),
             ),

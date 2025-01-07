@@ -5,6 +5,7 @@ import 'package:learnifyunpak/presentation/mycourses_screen/controller/mycourses
 import 'core/app_export.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'presentation/home_screen/controller/user_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,8 +13,12 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   WidgetsFlutterBinding.ensureInitialized();
+  
   // Inisialisasi controller secara global
   Get.put(MycoursesController());
+
+  // Inisialisasi controller untuk user profile
+  Get.put(UserProfileController());
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((value) {
