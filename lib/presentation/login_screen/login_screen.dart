@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
-import '../../core/utils/validation_functions.dart';
-import '../../domain/googleauth/google_auth_helper.dart';
+import '../auth_page/google_auth_helper.dart';
 import '../../theme/custom_button_style.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_outlined_button.dart';
@@ -57,6 +56,26 @@ class LoginScreen extends GetWidget<LoginController> {
     } catch (e) {
       Navigator.of(context).pop(); // Tutup loading dialog
       Get.snackbar("Error", e.toString());
+    }
+  }
+
+  // Google Sign-In Method
+  void onTapGoogleLoginButton() async {
+    
+    try {
+      User? user = await GoogleAuthHelper().googleSignInProcess();
+      if (user != null) {
+        // Navigate to home after successful login
+        Get.snackbar('Success', 'Welcome ${user.displayName ?? 'User'}!',
+            snackPosition: SnackPosition.BOTTOM);
+        Get.offNamed(AppRoutes.homeScreen); // Arahkan ke home screen
+      } else {
+        Get.snackbar('Error', 'Google login was canceled or failed.',
+            snackPosition: SnackPosition.BOTTOM);
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to sign in: ${e.toString()}',
+          snackPosition: SnackPosition.BOTTOM);
     }
   }
 
@@ -262,17 +281,5 @@ class LoginScreen extends GetWidget<LoginController> {
         Get.toNamed(AppRoutes.registerScreen);
       },
     );
-  }
-
-  void onTapGoogleLoginButton() async {
-    await GoogleAuthHelper().googleSignInProcess().then((googleUser) {
-      if (googleUser != null) {
-        // Perform actions after successful Google login
-      } else {
-        Get.snackbar('Error', 'User data is empty');
-      }
-    }).catchError((onError) {
-      Get.snackbar('Error', onError.toString());
-    });
   }
 }
