@@ -46,12 +46,8 @@ class HomeInitialPage extends StatelessWidget {
                       controller: controller.searchController,
                       hintText: "lbl_search".tr,
                       contentPadding: EdgeInsets.fromLTRB(14.h, 6.h, 18.h, 6.h),
-                      onChanged: (value) {
-                        controller.filterCourses(controller.tabIndex.value == 0
-                            ? "All"
-                            : controller.tabIndex.value == 1
-                                ? "Required Course"
-                                : "Elective Course");
+                      onChanged: (query) {
+                        controller.filterBySearch(query);
                       },
                     ),
                   ),
