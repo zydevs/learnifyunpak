@@ -31,8 +31,8 @@ class MycoursesallTabModel {
           lecture: (data['lecturer'] ?? 'Unknown Lecturer').toString().obs,
           requiredCourse: ImageConstant.imgClassIcon.obs, // Tetap statis
           requiredCourse1: (data['catcourse'] ?? 'Required Course').toString().obs,
+          learned: (data['learned'] ?? 'Learned').toString().obs,
           completed: "0% Completed".obs, // Tetap statis
-          learned: "Learned".obs, // Tetap statis
           image: ImageConstant.imgContrast.obs, // Tetap statis
           onehundredfifty: "0".obs, // Tetap statis
         );

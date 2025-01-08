@@ -85,4 +85,56 @@ class MycoursesController extends GetxController with GetSingleTickerProviderSta
     // Memperbarui model observasi dengan data yang difilter
     mycoursesallTabModelObj.value.courselistItemList.value = filteredCourses;
   }
+
+  // Metode MarkCourse
+  void markCourseAsCompleted(CourselistItemModel course) async {
+    try {
+      // Menampilkan dialog konfirmasi
+      Get.dialog(
+        AlertDialog(
+          title: Text('Did you complete the course?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Get.back(); // Tutup dialog
+              },
+              child: Text('No'),
+            ),
+            TextButton(
+              onPressed: () async {
+                // Tutup dialog
+                Get.back();
+
+                // Simpan ke Firestore
+                await FirebaseFirestore.instance.collection('courseCompleted').add({
+                  'userId': 'exampleUserId', // Ganti dengan ID pengguna saat ini
+                  'namecourse': course.namecourse.value,
+                  'timestamp': FieldValue.serverTimestamp(),
+                });
+
+                // Perbarui status kursus
+                course.learned.value = 'Finish';
+
+                // Informasikan pengguna
+                Get.snackbar(
+                  'Success',
+                  'Course marked as completed!',
+                  snackPosition: SnackPosition.BOTTOM,
+                );
+              },
+              child: Text('Yes'),
+            ),
+          ],
+        ),
+      );
+    } catch (e) {
+      print('Error marking course as completed: $e');
+      Get.snackbar(
+        'Error',
+        'Failed to mark course as completed.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
+
 }

@@ -33,7 +33,7 @@ class CourselistItemModel {
   late Rx<String> requiredCourse;  // Ikon jenis kursus
   late Rx<String> requiredCourse1; // Deskripsi jenis kursus (dinamis dari Firestore)
   late Rx<String> completed;       // Status penyelesaian (statis)
-  late Rx<String> learned;         // Status belajar (statis)
+  late Rx<String> learned;         // Status belajar (dinamis)
   late Rx<String> image;           // Ikon tambahan (statis)
   late Rx<String> onehundredfifty; // Jumlah (statis)
   late Rx<String> id;              // ID unik (jika diperlukan dari Firestore)

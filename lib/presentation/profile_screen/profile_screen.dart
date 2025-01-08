@@ -16,8 +16,13 @@ class ProfileScreen extends GetWidget<ProfileController> {
       : super(
           key: key,
         );
-  
+
   final user = FirebaseAuth.instance.currentUser!;
+
+  Future<int> getDocumentCount(String collectionName) async {
+    final snapshot = await FirebaseFirestore.instance.collection(collectionName).get();
+    return snapshot.size;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,13 +121,13 @@ class ProfileScreen extends GetWidget<ProfileController> {
                           imagePath: ImageConstant.imgArrowDown,
                           height: 16.h,
                           width: 14.h,
-                           onTap: () {
-                            _showLogoutConfirmation(context); // Panggil metode
+                          onTap: () {
+                            _showLogoutConfirmation(context);
                           },
                         ),
                         GestureDetector(
                           onTap: () {
-                            _showLogoutConfirmation(context); // Panggil metode
+                            _showLogoutConfirmation(context);
                           },
                           child: Padding(
                             padding: EdgeInsets.only(left: 20.h),
@@ -138,8 +143,8 @@ class ProfileScreen extends GetWidget<ProfileController> {
                           height: 12.h,
                           width: 8.h,
                           alignment: Alignment.topCenter,
-                           onTap: () {
-                            _showLogoutConfirmation(context); // Panggil metode
+                          onTap: () {
+                            _showLogoutConfirmation(context);
                           },
                         ),
                       ],
@@ -191,7 +196,6 @@ class ProfileScreen extends GetWidget<ProfileController> {
     );
   }
 
-  //section title page
   PreferredSizeWidget _buildAppBar() {
     return CustomAppBar(
       leadingWidth: 78.h,
@@ -214,9 +218,7 @@ class ProfileScreen extends GetWidget<ProfileController> {
     );
   }
 
-  //section profile
   Widget _buildUserInfoSection() {
-    // Ambil controller yang sudah diinisialisasi
     final userProfileController = Get.find<UserProfileController>();
 
     return FutureBuilder<DocumentSnapshot>(
@@ -237,7 +239,6 @@ class ProfileScreen extends GetWidget<ProfileController> {
           return Text('User not found');
         }
 
-        // Ambil nama lengkap pengguna
         String fullName = snapshot.data!['fullName'] ?? 'No Name Available';
 
         return Container(
@@ -268,7 +269,7 @@ class ProfileScreen extends GetWidget<ProfileController> {
                             Align(
                               alignment: Alignment.center,
                               child: Text(
-                                fullName, // Ganti dengan nama lengkap pengguna
+                                fullName,
                                 style: CustomTextStyles.titleLargePlusJakartaSans_1,
                               ),
                             ),
@@ -283,7 +284,7 @@ class ProfileScreen extends GetWidget<ProfileController> {
                       ),
                       SizedBox(height: 12.h),
                       Text(
-                        user?.email ?? "No Email Available", // Tampilkan email atau teks default jika null
+                        user.email ?? "No Email Available",
                         style: CustomTextStyles.labelLargePlusJakartaSansGray600,
                       )
                     ],
@@ -297,6 +298,7 @@ class ProfileScreen extends GetWidget<ProfileController> {
     );
   }
 
+/////////
   //section menu 1
   Widget _buildCourseInfoStack() {
     return Container(
@@ -317,8 +319,8 @@ class ProfileScreen extends GetWidget<ProfileController> {
                 width: double.maxFinite,
                 child: _buildCompletedCoursesRow(
                   completedCoursesText: "Selected Courses".tr,
-                  completedCoursesCount: "lbl_4".tr,
-                  iconPath: ImageConstant.imgPlus, // Tambahkan ikon plus
+                  collectionName: "selectedCourses",
+                  iconPath: ImageConstant.imgPlus,
                 ),
               ),
               SizedBox(height: 18.h),
@@ -326,8 +328,8 @@ class ProfileScreen extends GetWidget<ProfileController> {
                 width: double.maxFinite,
                 child: _buildCompletedCoursesRow(
                   completedCoursesText: "msg_completed_courses".tr,
-                  completedCoursesCount: "lbl_0".tr,
-                  iconPath: ImageConstant.imgFinish, // Tambahkan ikon selesai
+                  collectionName: "courseCompleted",
+                  iconPath: ImageConstant.imgFinish,
                 ),
               ),
             ]),
@@ -377,32 +379,65 @@ class ProfileScreen extends GetWidget<ProfileController> {
   // menu 1
   Widget _buildCompletedCoursesRow({
     required String completedCoursesText,
-    required String completedCoursesCount,
+    required String collectionName,
     required String iconPath,
   }) {
-    return Row(
-      children: [
-        CustomImageView(
-          imagePath: iconPath,
-          width: 20.h,
-          height: 20.h,
-          margin: EdgeInsets.only(right: 8.h),
-        ),
-        Expanded(
-          child: Text(
-            completedCoursesText,
-            style: theme.textTheme.titleSmall!.copyWith(
-              color: theme.colorScheme.onError, 
+    return FutureBuilder<int>(
+      future: getDocumentCount(collectionName),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Row(
+            children: [
+              CustomImageView(
+                imagePath: iconPath,
+                width: 20.h,
+                height: 20.h,
+                margin: EdgeInsets.only(right: 8.h),
+              ),
+              Expanded(
+                child: Text(
+                  completedCoursesText,
+                  style: theme.textTheme.titleSmall!.copyWith(
+                    color: theme.colorScheme.onError,
+                  ),
+                ),
+              ),
+              CircularProgressIndicator(), // Loading indikator
+            ],
+          );
+        }
+
+        if (snapshot.hasError) {
+          return Text('Error loading data');
+        }
+
+        final count = snapshot.data ?? 0;
+
+        return Row(
+          children: [
+            CustomImageView(
+              imagePath: iconPath,
+              width: 20.h,
+              height: 20.h,
+              margin: EdgeInsets.only(right: 8.h),
             ),
-          ),
-        ),
-        Text(
-          completedCoursesCount,
-          style: theme.textTheme.titleSmall!.copyWith(
-            color: theme.colorScheme.onError, 
-          ),
-        ),
-      ],
+            Expanded(
+              child: Text(
+                completedCoursesText,
+                style: theme.textTheme.titleSmall!.copyWith(
+                  color: theme.colorScheme.onError,
+                ),
+              ),
+            ),
+            Text(
+              "$count",
+              style: theme.textTheme.titleSmall!.copyWith(
+                color: theme.colorScheme.onError,
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
