@@ -3,17 +3,12 @@ import 'package:responsive_grid_list/responsive_grid_list.dart';
 import '../../core/app_export.dart';
 import 'controller/home_controller.dart';
 import 'models/coursegrid_item_model.dart';
-import 'models/homeall_tab_model.dart';
 import 'widgets/coursegrid_item_widget.dart';
 
-//
 class HomeallTabPage extends StatelessWidget {
-  HomeallTabPage({Key? key})
-      : super(
-          key: key,
-        );
+  HomeallTabPage({Key? key}) : super(key: key);
 
-  HomeController controller = Get.put(HomeController());
+  final HomeController controller = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -28,23 +23,20 @@ class HomeallTabPage extends StatelessWidget {
     );
   }
 
-  //
   Widget _buildCourseGrid() {
     return Expanded(
       child: Obx(
-        () => ResponsiveGridListBuilder(
-          minItemWidth: 1,
-          minItemsPerRow: 2,
-          maxItemsPerRow: 2,
-          horizontalGridSpacing: 30.h,
-          verticalGridSpacing: 30.h,
-          builder: (context, items) => ListView(
+        () => ResponsiveGridList(
+          minItemWidth: 150.h, // Minimum lebar item grid
+          minItemsPerRow: 2, // Minimal jumlah item per baris
+          maxItemsPerRow: 2, // Maksimal jumlah item per baris
+          horizontalGridSpacing: 16.h, // Spasi horizontal antar item
+          verticalGridSpacing: 16.h, // Spasi vertikal antar item
+          listViewBuilderOptions: ListViewBuilderOptions(
             shrinkWrap: true,
-            padding: EdgeInsets.zero,
-            physics: BouncingScrollPhysics(),
-            children: items,
+            physics: const BouncingScrollPhysics(),
           ),
-          gridItems: List.generate(
+          children: List.generate(
             controller.homeallTabModelObj.value.coursegridItemList.value.length,
             (index) {
               CoursegridItemModel model = controller

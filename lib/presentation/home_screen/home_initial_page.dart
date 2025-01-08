@@ -12,14 +12,10 @@ import 'controller/user_controller.dart';
 
 // ignore_for_file: must_be_immutable
 class HomeInitialPage extends StatelessWidget {
-  HomeInitialPage({Key? key})
-      : super(
-          key: key,
-        );
- 
-  final user = FirebaseAuth.instance.currentUser!;
+  HomeInitialPage({Key? key}) : super(key: key);
 
-  HomeController controller = Get.put(HomeController());
+  final user = FirebaseAuth.instance.currentUser!;
+  final HomeController controller = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -73,23 +69,21 @@ class HomeInitialPage extends StatelessWidget {
                         children: [
                           HomeallTabPage(),
                           HomeallTabPage(),
-                          HomeallTabPage()
+                          HomeallTabPage(),
                         ],
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
   }
-  
-  //
+
   PreferredSizeWidget _buildAppBar() {
-    // Ambil controller yang sudah diinisialisasi
     final userProfileController = Get.find<UserProfileController>();
 
     return CustomAppBar(
@@ -100,20 +94,24 @@ class HomeInitialPage extends StatelessWidget {
       ),
       title: Padding(
         padding: EdgeInsets.only(left: 15.h),
-        child: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: "lbl_welcome".tr,
-                style: CustomTextStyles.titleLargePlusJakartasansBlack900_1,
-              ),
-              TextSpan(
-                text: userProfileController.fullName.value,
-                style: CustomTextStyles.titleLargePlusJakartaSans,
-              )
-            ],
+        child: Obx(
+          () => RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: "lbl_welcome".tr,
+                  style: CustomTextStyles.titleLargePlusJakartasansBlack900_1,
+                ),
+                TextSpan(
+                  text: userProfileController.fullName.value.isNotEmpty
+                      ? " ${userProfileController.fullName.value}"
+                      : " User",
+                  style: CustomTextStyles.titleLargePlusJakartaSans,
+                ),
+              ],
+            ),
+            textAlign: TextAlign.left,
           ),
-          textAlign: TextAlign.left,
         ),
       ),
       actions: [
@@ -122,12 +120,11 @@ class HomeInitialPage extends StatelessWidget {
           height: 20.h,
           width: 20.h,
           margin: EdgeInsets.only(right: 22.h),
-        )
+        ),
       ],
     );
   }
 
-  // filter course
   Widget _buildTabView() {
     return SizedBox(
       width: double.maxFinite,
@@ -150,111 +147,47 @@ class HomeInitialPage extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
             tabs: [
-              Tab(
-                height: 32,
-                child: Container(
-                  alignment: Alignment.center,
-                  width: double.maxFinite,
-                  margin: EdgeInsets.only(right: 6.h),
-                  decoration: controller.tabIndex.value == 0
-                      ? BoxDecoration(
-                          color: theme.colorScheme.onPrimaryContainer,
-                          borderRadius: BorderRadius.circular(
-                            16.h,
-                          ),
-                          border: Border.all(
-                            color: theme.colorScheme.onPrimaryContainer,
-                            width: 0.95.h,
-                            strokeAlign: BorderSide.strokeAlignOutside,
-                          ))
-                      : BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                            16.h,
-                          ),
-                          border: Border.all(
-                            color: theme.colorScheme.onPrimaryContainer,
-                            width: 0.95,
-                            strokeAlign: BorderSide.strokeAlignOutside,
-                          ),
-                        ),
-                  child: Text(
-                    "lbl_all_course".tr,
-                  ),
-                ),
-              ),
-              Tab(
-                height: 32,
-                child: Container(
-                  alignment: Alignment.center,
-                  width: double.maxFinite,
-                  margin: EdgeInsets.symmetric(horizontal: 6.h),
-                  decoration: controller.tabIndex.value == 1
-                      ? BoxDecoration(
-                          color: theme.colorScheme.onPrimaryContainer,
-                          borderRadius: BorderRadius.circular(
-                            16.h,
-                          ),
-                          border: Border.all(
-                            color: theme.colorScheme.onPrimaryContainer,
-                            width: 0.95.h,
-                            strokeAlign: BorderSide.strokeAlignOutside,
-                          ))
-                      : BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                            16.h,
-                          ),
-                          border: Border.all(
-                            color: theme.colorScheme.onPrimaryContainer,
-                            width: 0.95,
-                            strokeAlign: BorderSide.strokeAlignOutside,
-                          ),
-                        ),
-                  child: Text(
-                    "lbl_required_course".tr,
-                  ),
-                ),
-              ),
-              Tab(
-                height: 32,
-                child: Container(
-                  alignment: Alignment.center,
-                  width: double.maxFinite,
-                  margin: EdgeInsets.only(left: 6.h),
-                  decoration: controller.tabIndex.value == 2
-                      ? BoxDecoration(
-                          color: theme.colorScheme.onPrimaryContainer,
-                          borderRadius: BorderRadius.circular(
-                            16.h,
-                          ),
-                          border: Border.all(
-                            color: theme.colorScheme.onPrimaryContainer,
-                            width: 0.95.h,
-                            strokeAlign: BorderSide.strokeAlignOutside,
-                          ))
-                      : BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                            16.h,
-                          ),
-                          border: Border.all(
-                            color: theme.colorScheme.onPrimaryContainer,
-                            width: 0.95,
-                            strokeAlign: BorderSide.strokeAlignOutside,
-                          ),
-                        ),
-                  child: Text(
-                    "lbl_elective_course".tr,
-                  ),
-                ),
-              )
+              _buildTab("lbl_all_course".tr, 0),
+              _buildTab("lbl_required_course".tr, 1),
+              _buildTab("lbl_elective_course".tr, 2),
             ],
-            indicator:
-                const BoxDecoration(), // Menghapus garis bawah (default indicator)
-            indicatorColor: Colors.transparent, // Back-up pengaturan
+            indicator: const BoxDecoration(),
+            indicatorColor: Colors.transparent,
             onTap: (index) {
               controller.tabIndex.value = index;
             },
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildTab(String label, int index) {
+    return Tab(
+      height: 32,
+      child: Container(
+        alignment: Alignment.center,
+        width: double.maxFinite,
+        margin: EdgeInsets.symmetric(horizontal: 6.h),
+        decoration: controller.tabIndex.value == index
+            ? BoxDecoration(
+                color: theme.colorScheme.onPrimaryContainer,
+                borderRadius: BorderRadius.circular(16.h),
+                border: Border.all(
+                  color: theme.colorScheme.onPrimaryContainer,
+                  width: 0.95.h,
+                  strokeAlign: BorderSide.strokeAlignOutside,
+                ),
+              )
+            : BoxDecoration(
+                borderRadius: BorderRadius.circular(16.h),
+                border: Border.all(
+                  color: theme.colorScheme.onPrimaryContainer,
+                  width: 0.95.h,
+                  strokeAlign: BorderSide.strokeAlignOutside,
+                ),
+              ),
+        child: Text(label),
       ),
     );
   }

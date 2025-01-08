@@ -1,29 +1,15 @@
-import '../../../core/app_export.dart';
+import 'package:get/get.dart';
 
-//
-
-//
 class CoursegridItemModel {
-  CoursegridItemModel(
-      {this.covercourse,
-      this.namecourse,
-      this.lecturer,
-      this.catcourse,
-      this.id}) {
-    covercourse = covercourse ?? Rx(ImageConstant.imgRc1);
-    namecourse = namecourse ?? Rx("Software Testing");
-    lecturer = lecturer ?? Rx("Boldson Herdianto S, MMSI.");
-    catcourse = catcourse ?? Rx("Required Course");
-    id = id ?? Rx("");
-  }
+  String covercourse;
+  RxString namecourse;
+  RxString lecturer;
+  RxString catcourse;
 
-  Rx<String>? covercourse;
-  
-  Rx<String>? namecourse;
-
-  Rx<String>? lecturer;
-
-  Rx<String>? catcourse;
-
-  Rx<String>? id;
+  CoursegridItemModel({
+    required this.covercourse,
+    required this.namecourse,
+    required this.lecturer,
+    required this.catcourse,
+  });
 }
