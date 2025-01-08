@@ -104,7 +104,7 @@ class CourselistItemWidget extends StatelessWidget {
                     alignment: Alignment.centerRight,
                     child: Obx(
                       () => Text(
-                        courselistItemModelObj.completed?.value ?? '0% Completed',
+                        courselistItemModelObj.completed?.value ?? '20% Completed',
                         style: CustomTextStyles.plusJakartaSansGray600,
                       ),
                     ),

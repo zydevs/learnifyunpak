@@ -21,6 +21,9 @@ class MycoursesController extends GetxController with GetSingleTickerProviderSta
   // Model observasi untuk MyCoursesAll Tab
   Rx<MycoursesallTabModel> mycoursesallTabModelObj = MycoursesallTabModel().obs;
 
+  // Daftar semua kursus yang diambil dari Firestore
+  List<CourselistItemModel> allCourses = [];
+
   @override
   void onInit() {
     super.onInit();
@@ -29,6 +32,9 @@ class MycoursesController extends GetxController with GetSingleTickerProviderSta
 
     // Memuat data dari Firestore
     _fetchSelectedCourses();
+
+    // Tambahkan listener untuk pencarian
+    searchController.addListener(_filterCourses);
   }
 
   @override
@@ -49,7 +55,7 @@ class MycoursesController extends GetxController with GetSingleTickerProviderSta
           .get();
 
       // Konversi data ke dalam model CourselistItemModel
-      List<CourselistItemModel> courses = snapshot.docs.map((doc) {
+      allCourses = snapshot.docs.map((doc) {
         return CourselistItemModel(
           covercourse: Rx(doc['covercourse'] ?? ''),
           namecourse: Rx(doc['namecourse'] ?? 'Unknown Course'),
@@ -59,10 +65,24 @@ class MycoursesController extends GetxController with GetSingleTickerProviderSta
         );
       }).toList();
 
-      // Memperbarui model observasi
-      mycoursesallTabModelObj.value.courselistItemList.value = courses;
+      // Menampilkan semua data saat awal
+      mycoursesallTabModelObj.value.courselistItemList.value = allCourses;
     } catch (e) {
       print('Error fetching courses: $e');
     }
+  }
+
+  // Fungsi untuk memfilter kursus berdasarkan input pencarian
+  void _filterCourses() {
+    String query = searchController.text.toLowerCase();
+
+    // Filter daftar kursus berdasarkan namecourse atau lecturer
+    List<CourselistItemModel> filteredCourses = allCourses.where((course) {
+      return course.namecourse.value.toLowerCase().contains(query) ||
+          course.lecture.value.toLowerCase().contains(query);
+    }).toList();
+
+    // Memperbarui model observasi dengan data yang difilter
+    mycoursesallTabModelObj.value.courselistItemList.value = filteredCourses;
   }
 }

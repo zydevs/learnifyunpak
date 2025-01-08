@@ -27,28 +27,37 @@ class MycoursesScreen extends StatelessWidget {
             children: [
               SizedBox(height: 24.h),
               Padding(
-                padding: EdgeInsets.only(
-                  left: 24.h,
-                  right: 18.h,
-                ),
-                child: CustomSearchView(
-                  controller: controller.searchController,
-                  hintText: 'lbl_search'.tr,
-                  contentPadding: EdgeInsets.fromLTRB(14.h, 6.h, 18.h, 6.h),
+                padding: EdgeInsets.symmetric(horizontal: 24.h),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: CustomSearchView(
+                        controller: controller.searchController,
+                        hintText: 'lbl_search'.tr,
+                        contentPadding: EdgeInsets.fromLTRB(14.h, 6.h, 18.h, 6.h),
+                        onChanged: (query) {
+                          controller.searchController.text = query;
+                          controller.searchController.notifyListeners();
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
               SizedBox(height: 10.h),
-              // _buildTabView(),
               Expanded(
                 child: Container(
-                  child: TabBarView(
-                    controller: controller.tabviewController,
-                    children: [
-                      MycoursesallTabPage(),
-                      MycoursesallTabPage(),
-                      MycoursesallTabPage()
-                    ],
-                  ),
+                  child: Obx(() {
+                    var courses = controller.mycoursesallTabModelObj.value.courselistItemList.value;
+                    return TabBarView(
+                      controller: controller.tabviewController,
+                      children: [
+                        MycoursesallTabPage(),
+                        MycoursesallTabPage(),
+                        MycoursesallTabPage()
+                      ],
+                    );
+                  }),
                 ),
               )
             ],
@@ -57,12 +66,10 @@ class MycoursesScreen extends StatelessWidget {
       ),
       bottomNavigationBar: SizedBox(
         width: double.maxFinite,
-        // child: _buildBottomNavigationBar(),
       ),
     );
   }
 
-  //section
   PreferredSizeWidget _buildAppBar() {
     return CustomAppBar(
       leadingWidth: 78.h,
@@ -85,138 +92,6 @@ class MycoursesScreen extends StatelessWidget {
     );
   }
 
-  // filter course
-  // Widget _buildTabView() {
-    // return SizedBox(
-      // width: double.maxFinite,
-      // child: Obx(
-      //   () => Container(
-      //     margin: EdgeInsets.symmetric(horizontal: 10.h),
-      //     child: TabBar(
-      //       controller: controller.tabviewController,
-      //       labelPadding: EdgeInsets.zero,
-      //       labelColor: theme.colorScheme.onPrimary,
-      //       labelStyle: TextStyle(
-      //         fontSize: 11.fSize,
-      //         fontFamily: 'Plus Jakarta Sans',
-      //         fontWeight: FontWeight.w600,
-      //       ),
-      //       unselectedLabelColor: theme.colorScheme.onPrimaryContainer,
-      //       unselectedLabelStyle: TextStyle(
-      //         fontSize: 11.fSize,
-      //         fontFamily: 'Plus Jakarta Sans',
-      //         fontWeight: FontWeight.w600,
-      //       ),
-      //       tabs: [
-      //         Tab(
-      //           height: 32,
-      //           child: Container(
-      //             alignment: Alignment.center,
-      //             width: double.maxFinite,
-      //             margin: EdgeInsets.only(right: 6.h),
-      //             decoration: controller.tabIndex.value == 0
-      //                 ? BoxDecoration(
-      //                   color: theme.colorScheme.onPrimaryContainer,
-      //                   borderRadius: BorderRadius.circular(
-      //                     16.h,
-      //                   ),
-      //                   border: Border.all(
-      //                     color: theme.colorScheme.onPrimaryContainer,
-      //                     width: 0.95.h,
-      //                     strokeAlign: BorderSide.strokeAlignOutside,
-      //                   ))
-      //                 : BoxDecoration(
-      //                   borderRadius: BorderRadius.circular(
-      //                     16.h,
-      //                   ),
-      //                   border: Border.all(
-      //                     color: theme.colorScheme.onPrimaryContainer,
-      //                     width: 0.95,
-      //                     strokeAlign: BorderSide.strokeAlignOutside,
-      //                   ),
-      //                 ),
-      //             child: Text(
-      //               "lbl_all_course".tr,
-      //             ),
-      //           ),
-      //         ),
-      //         Tab(
-      //           height: 32,
-      //           child: Container(
-      //             alignment: Alignment.center,
-      //             width: double.maxFinite,
-      //             margin: EdgeInsets.symmetric(horizontal: 6.h),
-      //             decoration: controller.tabIndex.value == 1
-      //                 ? BoxDecoration(
-      //                   color: theme.colorScheme.onPrimaryContainer,
-      //                   borderRadius: BorderRadius.circular(
-      //                     16.h,
-      //                   ),
-      //                   border: Border.all(
-      //                     color: theme.colorScheme.onPrimaryContainer,
-      //                     width: 0.95.h,
-      //                     strokeAlign: BorderSide.strokeAlignOutside,
-      //                   ))
-      //                 : BoxDecoration(
-      //                   borderRadius: BorderRadius.circular(
-      //                     16.h,
-      //                   ),
-      //                   border: Border.all(
-      //                     color: theme.colorScheme.onPrimaryContainer,
-      //                     width: 0.95,
-      //                     strokeAlign: BorderSide.strokeAlignOutside,
-      //                   ),
-      //                 ),
-      //             child: Text(
-      //               "lbl_in_progress".tr,
-      //             ),
-      //           ),
-      //         ),
-      //         Tab(
-      //           height: 32,
-      //           child: Container(
-      //             alignment: Alignment.center,
-      //             width: double.maxFinite,
-      //             margin: EdgeInsets.only(left: 6.h),
-      //             decoration: controller.tabIndex.value == 2
-      //                 ? BoxDecoration(
-      //                   color: theme.colorScheme.onPrimaryContainer,
-      //                   borderRadius: BorderRadius.circular(
-      //                     16.h,
-      //                   ),
-      //                   border: Border.all(
-      //                     color: theme.colorScheme.onPrimaryContainer,
-      //                     width: 0.95.h,
-      //                     strokeAlign: BorderSide.strokeAlignOutside,
-      //                   ))
-      //                 : BoxDecoration(
-      //                   borderRadius: BorderRadius.circular(
-      //                     16.h,
-      //                   ),
-      //                   border: Border.all(
-      //                     color: theme.colorScheme.onPrimaryContainer,
-      //                     width: 0.95,
-      //                     strokeAlign: BorderSide.strokeAlignOutside,
-      //                   ),
-      //                 ),
-      //             child: Text(
-      //               "msg_completed_courses".tr,
-      //             ),
-      //           ),
-      //         )
-      //       ],
-      //       indicator: const BoxDecoration(), // Menghapus garis bawah (default indicator)
-      //       indicatorColor: Colors.transparent, // Back-up pengaturan
-      //       onTap: (index) {
-      //         controller.tabIndex.value = index;
-      //       },
-      //     ),
-      //   ),
-      // ),
-    // );
-  // }
-
-  //
   String getCurrentRoute(BottomBarEnum type) {
     switch (type) {
       case BottomBarEnum.Home:

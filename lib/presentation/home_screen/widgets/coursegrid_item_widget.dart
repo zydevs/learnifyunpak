@@ -162,16 +162,16 @@ class _CustomIconState extends State<_CustomIcon> {
     final shouldDelete = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Konfirmasi'),
-        content: Text('Apakah Anda yakin ingin membatalkan pengambilan course ini?'),
+        title: Text('Confirm'),
+        content: Text('Are you sure you want to cancel this course selection?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: Text('Batal'),
+            child: Text('Cancel'),
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: Text('Ya'),
+            child: Text('Yes'),
           ),
         ],
       ),
