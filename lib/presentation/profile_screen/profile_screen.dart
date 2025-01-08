@@ -298,8 +298,7 @@ class ProfileScreen extends GetWidget<ProfileController> {
     );
   }
 
-/////////
-  //section menu 1
+/////////COUNT DATA COURSE
   Widget _buildCourseInfoStack() {
     return Container(
       height: 112.h,
@@ -314,25 +313,28 @@ class ProfileScreen extends GetWidget<ProfileController> {
               left: 26.h,
               right: 28.h,
             ),
-            child: Column(mainAxisSize: MainAxisSize.min, children: [
-              SizedBox(
-                width: double.maxFinite,
-                child: _buildCompletedCoursesRow(
-                  completedCoursesText: "Selected Courses".tr,
-                  collectionName: "selectedCourses",
-                  iconPath: ImageConstant.imgPlus,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  width: double.maxFinite,
+                  child: _buildCompletedCoursesRow(
+                    completedCoursesText: "Selected Courses".tr,
+                    collectionName: "selectedCourses",
+                    iconPath: ImageConstant.imgPlus,
+                  ),
                 ),
-              ),
-              SizedBox(height: 18.h),
-              SizedBox(
-                width: double.maxFinite,
-                child: _buildCompletedCoursesRow(
-                  completedCoursesText: "msg_completed_courses".tr,
-                  collectionName: "courseCompleted",
-                  iconPath: ImageConstant.imgFinish,
+                SizedBox(height: 18.h),
+                SizedBox(
+                  width: double.maxFinite,
+                  child: _buildCompletedCoursesRow(
+                    completedCoursesText: "msg_completed_courses".tr,
+                    collectionName: "courseCompleted",
+                    iconPath: ImageConstant.imgFinish,
+                  ),
                 ),
-              ),
-            ]),
+              ],
+            ),
           ),
           CustomImageView(
             imagePath: ImageConstant.imgLine3,
@@ -344,7 +346,47 @@ class ProfileScreen extends GetWidget<ProfileController> {
     );
   }
 
-  //section menu 2
+  Widget _buildCompletedCoursesRow({
+    required String completedCoursesText,
+    required String collectionName,
+    required String iconPath,
+  }) {
+    return FutureBuilder<QuerySnapshot>(
+      future: FirebaseFirestore.instance.collection(collectionName).get(),
+      builder: (context, snapshot) {
+        int count = 0; // Default jumlah awal 0
+        if (snapshot.hasData) {
+          count = snapshot.data!.docs.length; // Update dengan jumlah data
+        }
+        return Row(
+          children: [
+            CustomImageView(
+              imagePath: iconPath,
+              width: 20.h,
+              height: 20.h,
+              margin: EdgeInsets.only(right: 8.h),
+            ),
+            Expanded(
+              child: Text(
+                completedCoursesText,
+                style: theme.textTheme.titleSmall!.copyWith(
+                  color: theme.colorScheme.onError,
+                ),
+              ),
+            ),
+            Text(
+              count.toString(), // Tampilkan jumlah data
+              style: theme.textTheme.titleSmall!.copyWith(
+                color: theme.colorScheme.onError,
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+ //section menu 2
   Widget _buildHelpCenterRow({
     required String contrastImage,
     required String helpCenterText,
@@ -373,71 +415,6 @@ class ProfileScreen extends GetWidget<ProfileController> {
           width: 8.h,
         )
       ],
-    );
-  }
-
-  // menu 1
-  Widget _buildCompletedCoursesRow({
-    required String completedCoursesText,
-    required String collectionName,
-    required String iconPath,
-  }) {
-    return FutureBuilder<int>(
-      future: getDocumentCount(collectionName),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Row(
-            children: [
-              CustomImageView(
-                imagePath: iconPath,
-                width: 20.h,
-                height: 20.h,
-                margin: EdgeInsets.only(right: 8.h),
-              ),
-              Expanded(
-                child: Text(
-                  completedCoursesText,
-                  style: theme.textTheme.titleSmall!.copyWith(
-                    color: theme.colorScheme.onError,
-                  ),
-                ),
-              ),
-              CircularProgressIndicator(), // Loading indikator
-            ],
-          );
-        }
-
-        if (snapshot.hasError) {
-          return Text('Error loading data');
-        }
-
-        final count = snapshot.data ?? 0;
-
-        return Row(
-          children: [
-            CustomImageView(
-              imagePath: iconPath,
-              width: 20.h,
-              height: 20.h,
-              margin: EdgeInsets.only(right: 8.h),
-            ),
-            Expanded(
-              child: Text(
-                completedCoursesText,
-                style: theme.textTheme.titleSmall!.copyWith(
-                  color: theme.colorScheme.onError,
-                ),
-              ),
-            ),
-            Text(
-              "$count",
-              style: theme.textTheme.titleSmall!.copyWith(
-                color: theme.colorScheme.onError,
-              ),
-            ),
-          ],
-        );
-      },
     );
   }
 

@@ -50,6 +50,7 @@ class HomeController extends GetxController with SingleGetTickerProviderMixin {
           namecourse: RxString(data['namecourse'] ?? ''),
           lecturer: RxString(data['lecturer'] ?? ''),
           catcourse: RxString(data['catcourse'] ?? ''),
+          learned: RxString(data['learned'] ?? 'Learned'),
         );
       }).toList();
 

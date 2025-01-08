@@ -6,12 +6,14 @@ class CoursegridItemModel {
   RxString namecourse;
   RxString lecturer;
   RxString catcourse;
+  RxString learned;
 
   CoursegridItemModel({
     required this.covercourse,
     required this.namecourse,
     required this.lecturer,
     required this.catcourse,
+    required this.learned,
   });
 
   // Factory constructor untuk pemetaan dari Firebase
@@ -22,6 +24,7 @@ class CoursegridItemModel {
       namecourse: (data['namecourse'] ?? '').obs,
       lecturer: (data['lecturer'] ?? '').obs,
       catcourse: (data['catcourse'] ?? '').obs,
+      learned: (data['learned'] ?? 'Learned').obs,
     );
   }
 }
