@@ -37,8 +37,8 @@ class MycoursesScreen extends StatelessWidget {
                   contentPadding: EdgeInsets.fromLTRB(14.h, 6.h, 18.h, 6.h),
                 ),
               ),
-              SizedBox(height: 22.h),
-              _buildTabView(),
+              SizedBox(height: 10.h),
+              // _buildTabView(),
               Expanded(
                 child: Container(
                   child: TabBarView(
@@ -86,135 +86,135 @@ class MycoursesScreen extends StatelessWidget {
   }
 
   // filter course
-  Widget _buildTabView() {
-    return SizedBox(
-      width: double.maxFinite,
-      child: Obx(
-        () => Container(
-          margin: EdgeInsets.symmetric(horizontal: 10.h),
-          child: TabBar(
-            controller: controller.tabviewController,
-            labelPadding: EdgeInsets.zero,
-            labelColor: theme.colorScheme.onPrimary,
-            labelStyle: TextStyle(
-              fontSize: 11.fSize,
-              fontFamily: 'Plus Jakarta Sans',
-              fontWeight: FontWeight.w600,
-            ),
-            unselectedLabelColor: theme.colorScheme.onPrimaryContainer,
-            unselectedLabelStyle: TextStyle(
-              fontSize: 11.fSize,
-              fontFamily: 'Plus Jakarta Sans',
-              fontWeight: FontWeight.w600,
-            ),
-            tabs: [
-              Tab(
-                height: 32,
-                child: Container(
-                  alignment: Alignment.center,
-                  width: double.maxFinite,
-                  margin: EdgeInsets.only(right: 6.h),
-                  decoration: controller.tabIndex.value == 0
-                      ? BoxDecoration(
-                        color: theme.colorScheme.onPrimaryContainer,
-                        borderRadius: BorderRadius.circular(
-                          16.h,
-                        ),
-                        border: Border.all(
-                          color: theme.colorScheme.onPrimaryContainer,
-                          width: 0.95.h,
-                          strokeAlign: BorderSide.strokeAlignOutside,
-                        ))
-                      : BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          16.h,
-                        ),
-                        border: Border.all(
-                          color: theme.colorScheme.onPrimaryContainer,
-                          width: 0.95,
-                          strokeAlign: BorderSide.strokeAlignOutside,
-                        ),
-                      ),
-                  child: Text(
-                    "lbl_all_course".tr,
-                  ),
-                ),
-              ),
-              Tab(
-                height: 32,
-                child: Container(
-                  alignment: Alignment.center,
-                  width: double.maxFinite,
-                  margin: EdgeInsets.symmetric(horizontal: 6.h),
-                  decoration: controller.tabIndex.value == 1
-                      ? BoxDecoration(
-                        color: theme.colorScheme.onPrimaryContainer,
-                        borderRadius: BorderRadius.circular(
-                          16.h,
-                        ),
-                        border: Border.all(
-                          color: theme.colorScheme.onPrimaryContainer,
-                          width: 0.95.h,
-                          strokeAlign: BorderSide.strokeAlignOutside,
-                        ))
-                      : BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          16.h,
-                        ),
-                        border: Border.all(
-                          color: theme.colorScheme.onPrimaryContainer,
-                          width: 0.95,
-                          strokeAlign: BorderSide.strokeAlignOutside,
-                        ),
-                      ),
-                  child: Text(
-                    "lbl_in_progress".tr,
-                  ),
-                ),
-              ),
-              Tab(
-                height: 32,
-                child: Container(
-                  alignment: Alignment.center,
-                  width: double.maxFinite,
-                  margin: EdgeInsets.only(left: 6.h),
-                  decoration: controller.tabIndex.value == 2
-                      ? BoxDecoration(
-                        color: theme.colorScheme.onPrimaryContainer,
-                        borderRadius: BorderRadius.circular(
-                          16.h,
-                        ),
-                        border: Border.all(
-                          color: theme.colorScheme.onPrimaryContainer,
-                          width: 0.95.h,
-                          strokeAlign: BorderSide.strokeAlignOutside,
-                        ))
-                      : BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          16.h,
-                        ),
-                        border: Border.all(
-                          color: theme.colorScheme.onPrimaryContainer,
-                          width: 0.95,
-                          strokeAlign: BorderSide.strokeAlignOutside,
-                        ),
-                      ),
-                  child: Text(
-                    "msg_completed_courses".tr,
-                  ),
-                ),
-              )
-            ],
-            indicator: const BoxDecoration(), // Menghapus garis bawah (default indicator)
-            indicatorColor: Colors.transparent, // Back-up pengaturan
-            onTap: (index) {
-              controller.tabIndex.value = index;
-            },
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget _buildTabView() {
+    // return SizedBox(
+      // width: double.maxFinite,
+      // child: Obx(
+      //   () => Container(
+      //     margin: EdgeInsets.symmetric(horizontal: 10.h),
+      //     child: TabBar(
+      //       controller: controller.tabviewController,
+      //       labelPadding: EdgeInsets.zero,
+      //       labelColor: theme.colorScheme.onPrimary,
+      //       labelStyle: TextStyle(
+      //         fontSize: 11.fSize,
+      //         fontFamily: 'Plus Jakarta Sans',
+      //         fontWeight: FontWeight.w600,
+      //       ),
+      //       unselectedLabelColor: theme.colorScheme.onPrimaryContainer,
+      //       unselectedLabelStyle: TextStyle(
+      //         fontSize: 11.fSize,
+      //         fontFamily: 'Plus Jakarta Sans',
+      //         fontWeight: FontWeight.w600,
+      //       ),
+      //       tabs: [
+      //         Tab(
+      //           height: 32,
+      //           child: Container(
+      //             alignment: Alignment.center,
+      //             width: double.maxFinite,
+      //             margin: EdgeInsets.only(right: 6.h),
+      //             decoration: controller.tabIndex.value == 0
+      //                 ? BoxDecoration(
+      //                   color: theme.colorScheme.onPrimaryContainer,
+      //                   borderRadius: BorderRadius.circular(
+      //                     16.h,
+      //                   ),
+      //                   border: Border.all(
+      //                     color: theme.colorScheme.onPrimaryContainer,
+      //                     width: 0.95.h,
+      //                     strokeAlign: BorderSide.strokeAlignOutside,
+      //                   ))
+      //                 : BoxDecoration(
+      //                   borderRadius: BorderRadius.circular(
+      //                     16.h,
+      //                   ),
+      //                   border: Border.all(
+      //                     color: theme.colorScheme.onPrimaryContainer,
+      //                     width: 0.95,
+      //                     strokeAlign: BorderSide.strokeAlignOutside,
+      //                   ),
+      //                 ),
+      //             child: Text(
+      //               "lbl_all_course".tr,
+      //             ),
+      //           ),
+      //         ),
+      //         Tab(
+      //           height: 32,
+      //           child: Container(
+      //             alignment: Alignment.center,
+      //             width: double.maxFinite,
+      //             margin: EdgeInsets.symmetric(horizontal: 6.h),
+      //             decoration: controller.tabIndex.value == 1
+      //                 ? BoxDecoration(
+      //                   color: theme.colorScheme.onPrimaryContainer,
+      //                   borderRadius: BorderRadius.circular(
+      //                     16.h,
+      //                   ),
+      //                   border: Border.all(
+      //                     color: theme.colorScheme.onPrimaryContainer,
+      //                     width: 0.95.h,
+      //                     strokeAlign: BorderSide.strokeAlignOutside,
+      //                   ))
+      //                 : BoxDecoration(
+      //                   borderRadius: BorderRadius.circular(
+      //                     16.h,
+      //                   ),
+      //                   border: Border.all(
+      //                     color: theme.colorScheme.onPrimaryContainer,
+      //                     width: 0.95,
+      //                     strokeAlign: BorderSide.strokeAlignOutside,
+      //                   ),
+      //                 ),
+      //             child: Text(
+      //               "lbl_in_progress".tr,
+      //             ),
+      //           ),
+      //         ),
+      //         Tab(
+      //           height: 32,
+      //           child: Container(
+      //             alignment: Alignment.center,
+      //             width: double.maxFinite,
+      //             margin: EdgeInsets.only(left: 6.h),
+      //             decoration: controller.tabIndex.value == 2
+      //                 ? BoxDecoration(
+      //                   color: theme.colorScheme.onPrimaryContainer,
+      //                   borderRadius: BorderRadius.circular(
+      //                     16.h,
+      //                   ),
+      //                   border: Border.all(
+      //                     color: theme.colorScheme.onPrimaryContainer,
+      //                     width: 0.95.h,
+      //                     strokeAlign: BorderSide.strokeAlignOutside,
+      //                   ))
+      //                 : BoxDecoration(
+      //                   borderRadius: BorderRadius.circular(
+      //                     16.h,
+      //                   ),
+      //                   border: Border.all(
+      //                     color: theme.colorScheme.onPrimaryContainer,
+      //                     width: 0.95,
+      //                     strokeAlign: BorderSide.strokeAlignOutside,
+      //                   ),
+      //                 ),
+      //             child: Text(
+      //               "msg_completed_courses".tr,
+      //             ),
+      //           ),
+      //         )
+      //       ],
+      //       indicator: const BoxDecoration(), // Menghapus garis bawah (default indicator)
+      //       indicatorColor: Colors.transparent, // Back-up pengaturan
+      //       onTap: (index) {
+      //         controller.tabIndex.value = index;
+      //       },
+      //     ),
+      //   ),
+      // ),
+    // );
+  // }
 
   //
   String getCurrentRoute(BottomBarEnum type) {

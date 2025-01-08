@@ -1,31 +1,44 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../../core/app_export.dart';
 import 'courselist_item_model.dart';
 
 class MycoursesallTabModel {
-  Rx<List<CourselistItemModel>> courselistItemList = Rx([
-    CourselistItemModel(
-        covercourse: ImageConstant.imgRc3.obs,
-        namecourse: "Data Mining".obs,
-        lecture: "Dr. Fajar Delli W., M.M, M.Kom".obs,
-        requiredCourse: ImageConstant.imgClassIcon.obs,
-        requiredCourse1: "Required Course".obs,
-        completed: "35 Completed".obs,
-        learned: "Learned".obs,
-        image: ImageConstant.imgContrast.obs,
-        onehundredfifty: "150".obs),
-    CourselistItemModel(
-        covercourse: ImageConstant.imgRc4.obs,
-        namecourse: "Teknik Simulasi".obs,
-        lecture: "Dr. Eneng Tita T., M.Si., M.Kom".obs,
-        requiredCourse: ImageConstant.imgClassIcon.obs,
-        requiredCourse1: "Required Course".obs,
-        completed: "35% Completed".obs,
-        image: ImageConstant.imgContrast.obs,
-        onehundredfifty: "150".obs),
-    CourselistItemModel(
-        covercourse: ImageConstant.imgEc1.obs,
-        namecourse: "Sistem Informasi Geografis".obs,
-        completed: "35% Completed".obs),
-    CourselistItemModel(covercourse: ImageConstant.imgEc2.obs)
-  ]);
+  Rx<List<CourselistItemModel>> courselistItemList = Rx([]);
+
+  MycoursesallTabModel() {
+    _loadCoursesFromFirestore();
+  }
+
+  void _loadCoursesFromFirestore() {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+
+    if (uid == null) {
+      print('User not logged in');
+      return;
+    }
+
+    FirebaseFirestore.instance
+        .collection('selectedCourses')
+        .where('fullName', isEqualTo: uid) // Filter berdasarkan pengguna saat ini
+        .snapshots()
+        .listen((snapshot) {
+      final List<CourselistItemModel> courses = snapshot.docs.map((doc) {
+        final data = doc.data();
+        return CourselistItemModel(
+          covercourse: (data['covercourse'] ?? ImageConstant.imgNotFound).toString().obs,
+          namecourse: (data['namecourse'] ?? 'Unknown Course').toString().obs,
+          lecture: (data['lecturer'] ?? 'Unknown Lecturer').toString().obs,
+          requiredCourse: ImageConstant.imgClassIcon.obs, // Tetap statis
+          requiredCourse1: (data['catcourse'] ?? 'Required Course').toString().obs,
+          completed: "0% Completed".obs, // Tetap statis
+          learned: "Learned".obs, // Tetap statis
+          image: ImageConstant.imgContrast.obs, // Tetap statis
+          onehundredfifty: "0".obs, // Tetap statis
+        );
+      }).toList();
+
+      courselistItemList.value = courses;
+    });
+  }
 }

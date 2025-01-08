@@ -7,14 +7,11 @@ import 'widgets/course_item_widget.dart';
 
 // ignore_for_file: must_be_immutable
 class MycoursesallTabPage extends StatelessWidget {
-  MycoursesallTabPage({Key? key})
-      : super(
-          key: key,
-        );
+  MycoursesallTabPage({Key? key}) : super(key: key);
 
   final MycoursesController controller = Get.find<MycoursesController>();
 
-  @override
+ @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 14.h),
@@ -27,25 +24,34 @@ class MycoursesallTabPage extends StatelessWidget {
   Widget _buildCourseList() {
     return Expanded(
       child: Obx(
-        () => ListView.separated(
-          padding: EdgeInsets.symmetric(horizontal: 2.h),
-          physics: BouncingScrollPhysics(),
-          shrinkWrap: true,
-          separatorBuilder: (context, index) {
-            return SizedBox(
-              height: 10.h,
+        () {
+          final courseList = controller
+              .mycoursesallTabModelObj.value.courselistItemList.value;
+
+          // Handle empty course list
+          if (courseList.isEmpty) {
+            return Center(
+              child: Text(
+                "No courses available",
+                style: CustomTextStyles.bodySmall12,
+              ),
             );
-          },
-          itemCount: controller
-              .mycoursesallTabModelObj.value.courselistItemList.value.length,
-          itemBuilder: (context, index) {
-            CourselistItemModel model = controller
-                .mycoursesallTabModelObj.value.courselistItemList.value[index];
-            return CourselistItemWidget(
-              model,
-            );
-          },
-        ),
+          }
+
+          return ListView.separated(
+            padding: EdgeInsets.symmetric(horizontal: 2.h),
+            physics: BouncingScrollPhysics(),
+            shrinkWrap: true,
+            separatorBuilder: (context, index) {
+              return SizedBox(height: 10.h);
+            },
+            itemCount: courseList.length,
+            itemBuilder: (context, index) {
+              CourselistItemModel model = courseList[index];
+              return CourselistItemWidget(model);
+            },
+          );
+        },
       ),
     );
   }
