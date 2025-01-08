@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../core/app_export.dart';
 import '../../widgets/app_bar/appbar_leading_image.dart';
 import '../../widgets/app_bar/appbar_trailing_image.dart';
@@ -7,10 +8,8 @@ import '../../widgets/app_bar/custom_app_bar.dart';
 import '../../widgets/custom_search_view.dart';
 import 'controller/home_controller.dart';
 import 'homeall_tab_page.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'controller/user_controller.dart';
 
-// ignore_for_file: must_be_immutable
 class HomeInitialPage extends StatelessWidget {
   HomeInitialPage({Key? key}) : super(key: key);
 
@@ -37,7 +36,7 @@ class HomeInitialPage extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  SizedBox(height: 24.h),
+                  SizedBox(height: 10.h),
                   Padding(
                     padding: EdgeInsets.only(
                       left: 24.h,
@@ -47,6 +46,13 @@ class HomeInitialPage extends StatelessWidget {
                       controller: controller.searchController,
                       hintText: "lbl_search".tr,
                       contentPadding: EdgeInsets.fromLTRB(14.h, 6.h, 18.h, 6.h),
+                      onChanged: (value) {
+                        controller.filterCourses(controller.tabIndex.value == 0
+                            ? "All"
+                            : controller.tabIndex.value == 1
+                                ? "Required Course"
+                                : "Elective Course");
+                      },
                     ),
                   ),
                   SizedBox(height: 10.h),
@@ -63,15 +69,13 @@ class HomeInitialPage extends StatelessWidget {
                   SizedBox(height: 10.h),
                   _buildTabView(),
                   Expanded(
-                    child: Container(
-                      child: TabBarView(
-                        controller: controller.tabViewController,
-                        children: [
-                          HomeallTabPage(),
-                          HomeallTabPage(),
-                          HomeallTabPage(),
-                        ],
-                      ),
+                    child: TabBarView(
+                      controller: controller.tabViewController,
+                      children: [
+                        HomeallTabPage(filter: "All"),
+                        HomeallTabPage(filter: "Required Course"),
+                        HomeallTabPage(filter: "Elective Course"),
+                      ],
                     ),
                   ),
                 ],
@@ -147,14 +151,18 @@ class HomeInitialPage extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
             tabs: [
-              _buildTab("lbl_all_course".tr, 0),
-              _buildTab("lbl_required_course".tr, 1),
-              _buildTab("lbl_elective_course".tr, 2),
+              _buildTab("All Course".tr, 0),
+              _buildTab("Required Course".tr, 1),
+              _buildTab("Elective Course".tr, 2),
             ],
             indicator: const BoxDecoration(),
             indicatorColor: Colors.transparent,
             onTap: (index) {
-              controller.tabIndex.value = index;
+              controller.filterCourses(index == 0
+                  ? "All"
+                  : index == 1
+                      ? "Required Course"
+                      : "Elective Course");
             },
           ),
         ),

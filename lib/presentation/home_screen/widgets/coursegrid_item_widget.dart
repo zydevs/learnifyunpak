@@ -4,10 +4,9 @@ import '../controller/home_controller.dart';
 import '../models/coursegrid_item_model.dart';
 
 class CoursegridItemWidget extends StatelessWidget {
-  CoursegridItemWidget(this.coursegridItemModelObj, {Key? key}) : super(key: key);
+  final CoursegridItemModel coursegridItemModelobj;
 
-  final CoursegridItemModel coursegridItemModelObj;
-  final HomeController controller = Get.find<HomeController>();
+  CoursegridItemWidget(this.coursegridItemModelobj, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,75 +17,53 @@ class CoursegridItemWidget extends StatelessWidget {
         borderRadius: BorderRadiusStyle.rounderBorder5,
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Gambar kursus
           CustomImageView(
-            imagePath: coursegridItemModelObj.covercourse,
-            height: 100.h,
+            imagePath: coursegridItemModelobj.covercourse,
+            height: 135.h,
             width: double.maxFinite,
             radius: BorderRadius.circular(5.h),
           ),
           SizedBox(height: 4.h),
-          // Nama kursus
-          Text(
-            coursegridItemModelObj.namecourse.value,
-            style: theme.textTheme.labelMedium,
+          Obx(
+            () => Text(
+              coursegridItemModelobj.namecourse.value,
+              style: theme.textTheme.labelMedium,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
           SizedBox(height: 4.h),
-          // Baris deskripsi
+          Obx(
+            () => Text(
+              coursegridItemModelobj.lecturer.value,
+              style: CustomTextStyles.plusJakartaSansGray600Medium,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          SizedBox(height: 6.h),
           Row(
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Nama pengajar
-                    Text(
-                      coursegridItemModelObj.lecturer.value,
-                      style: CustomTextStyles.plusJakartaSansGray600Medium,
-                    ),
-                    SizedBox(height: 6.h),
-                    // Kategori kursus
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomImageView(
-                          imagePath: ImageConstant.imgClassIcon,
-                          height: 14.h,
-                          width: 14.h,
-                          alignment: Alignment.center,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 8.h),
-                          child: Text(
-                            coursegridItemModelObj.catcourse.value,
-                            style: CustomTextStyles.plusJakartaSansGray600Medium,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              CustomImageView(
+                imagePath: ImageConstant.imgClassIcon,
+                height: 14.h,
+                width: 14.h,
               ),
-              // Tombol Aksi
-              Align(
-                alignment: Alignment.bottomRight,
-                child: TextButton(
-                  onPressed: () {
-                    print('Button Pressed!');
-                  },
-                  style: ButtonStyle(
-                    overlayColor: MaterialStateProperty.all(Colors.transparent),
-                  ),
-                  child: _CustomIcon(),
+              SizedBox(width: 8.h),
+              Obx(
+                () => Text(
+                  coursegridItemModelobj.catcourse.value,
+                  style: CustomTextStyles.plusJakartaSansGray600Medium,
                 ),
               ),
             ],
           ),
-          SizedBox(height: 2.h),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: _CustomIcon(),
+          ),
         ],
       ),
     );
@@ -106,21 +83,21 @@ class __CustomIconState extends State<_CustomIcon> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          isClicked = !isClicked; // Mengubah status saat diklik
+          isClicked = !isClicked;
         });
       },
       child: Container(
-        width: 35.0, // Ukuran lingkaran
+        width: 35.0,
         height: 35.0,
         decoration: BoxDecoration(
-          color: isClicked ? Colors.grey : Colors.purple, // Warna lingkaran
+          color: isClicked ? Colors.grey : Colors.purple,
           shape: BoxShape.circle,
         ),
         child: Center(
           child: Icon(
-            isClicked ? Icons.close : Icons.add, // Ikon silang atau plus
-            color: Colors.white, // Warna ikon
-            size: 25.0, // Ukuran ikon
+            isClicked ? Icons.close : Icons.add,
+            color: Colors.white,
+            size: 25.0,
           ),
         ),
       ),

@@ -1,53 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:responsive_grid_list/responsive_grid_list.dart';
-import '../../core/app_export.dart';
+import 'package:get/get.dart';
 import 'controller/home_controller.dart';
-import 'models/coursegrid_item_model.dart';
 import 'widgets/coursegrid_item_widget.dart';
 
 class HomeallTabPage extends StatelessWidget {
-  HomeallTabPage({Key? key}) : super(key: key);
+  final String filter;
 
-  final HomeController controller = Get.put(HomeController());
+  HomeallTabPage({required this.filter, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 30.h,
-        vertical: 8.h,
-      ),
-      child: Column(
-        children: [SizedBox(height: 6.h), _buildCourseGrid()],
-      ),
-    );
-  }
+    final HomeController controller = Get.find<HomeController>();
 
-  Widget _buildCourseGrid() {
-    return Expanded(
-      child: Obx(
-        () => ResponsiveGridList(
-          minItemWidth: 150.h, // Minimum lebar item grid
-          minItemsPerRow: 2, // Minimal jumlah item per baris
-          maxItemsPerRow: 2, // Maksimal jumlah item per baris
-          horizontalGridSpacing: 16.h, // Spasi horizontal antar item
-          verticalGridSpacing: 16.h, // Spasi vertikal antar item
-          listViewBuilderOptions: ListViewBuilderOptions(
-            shrinkWrap: true,
-            physics: const BouncingScrollPhysics(),
+    // Set filter ke controller sebelum widget dibangun
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (controller.currentCategory.value != filter) {
+        controller.filterCourses(filter);
+      }
+    });
+
+    return Obx(
+      () {
+        final courses = controller.filteredCourses;
+
+        if (courses.isEmpty) {
+          return const Center(
+            child: Text(
+              "No courses available in this category.",
+              style: TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+          );
+        }
+
+        return GridView.builder(
+          padding: const EdgeInsets.all(10),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
+            childAspectRatio: 0.75,
           ),
-          children: List.generate(
-            controller.homeallTabModelObj.value.coursegridItemList.value.length,
-            (index) {
-              CoursegridItemModel model = controller
-                  .homeallTabModelObj.value.coursegridItemList.value[index];
-              return CoursegridItemWidget(
-                model,
-              );
-            },
-          ),
-        ),
-      ),
+          itemCount: courses.length,
+          itemBuilder: (context, index) {
+            final course = courses[index];
+            return CoursegridItemWidget(course);
+          },
+        );
+      },
     );
   }
 }
