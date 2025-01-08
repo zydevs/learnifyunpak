@@ -316,7 +316,7 @@ class ProfileScreen extends GetWidget<ProfileController> {
               SizedBox(
                 width: double.maxFinite,
                 child: _buildCompletedCoursesRow(
-                  completedCoursesText: "lbl_course_taken".tr,
+                  completedCoursesText: "Selected Courses".tr,
                   completedCoursesCount: "lbl_4".tr,
                   iconPath: ImageConstant.imgPlus, // Tambahkan ikon plus
                 ),
