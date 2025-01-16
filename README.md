@@ -2,6 +2,9 @@
 
 Sebuah Inovasi mendukung transformasi LMS versi Website ke sebuah Aplikasi Mobile. Learnify Unpak hadir untuk memudahkan Mahasiswa mengakses materi-materi serta fitur pembelajaran lainnya dalam satu aplikasi.
 
+## Video Demo Aplikasi
+https://youtu.be/CIkbGQuTGiM
+
 ## User Interface
 
 ### Splash Screen
